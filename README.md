@@ -9,7 +9,7 @@ https://ecoist.herokuapp.com/
 * Bryan Tjandra
 * Mazaya Nur Labiba
 * Roy Maruli Tua Nababan
-*Son Sulung Suryahatta Asnan
+* Son Sulung Suryahatta Asnan
 
 ## Main Idea
 
