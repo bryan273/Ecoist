@@ -36,7 +36,7 @@ Situs Ecoist adalah situs yang bertujuan untuk menyebarkan kesadaran kepada masy
     
     Login dan logout berisi form untuk mengautentikasi dan membedakan antara user dan admin. Menggunakan modal untuk regist , kemudian menggunakan AJAX  POST & GET. 
 
-3. Welcome Page (include deskripsi / about us) - Roy
+3. Home Page - Roy
     
     <img src="https://user-images.githubusercontent.com/88226713/195620247-bfdba618-59b4-4bfb-a84c-166358712622.png" width="400" height="600"/>
 
@@ -66,7 +66,7 @@ Situs Ecoist adalah situs yang bertujuan untuk menyebarkan kesadaran kepada masy
 
     Ini adalah fitur donasi untuk memfasilitasi user yang sudah login untuk berdonasi. Terdapat form untuk memasukkan input nominal donasi, jumlah pohon yang ingin didonasikan, dan catatan/pesan untuk kami serta tombol submit untuk menginput donasi. Ketika user ingin men-submit donasi, maka tombol submit tersebut akan menggunakan AJAX POST untuk menginput data yang dimasukkan user ke dalam database. Jika user belum login, maka akan di redirect ke halaman login terlebih dahulu.
 
-8. Admin features - Bryan
+8. Admin Features - Bryan
 
     <img width="400" height="300" src="https://user-images.githubusercontent.com/88226713/195622602-8f00c778-6eed-4d1b-a737-5100a663aaa6.png">
 
