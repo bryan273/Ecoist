@@ -16,24 +16,29 @@ Son Sulung Suryahatta Asnan
 
 ## Main Idea
 
-Donasi pohon
+Donasi dan kampanye penanaman pohon
 
 ## Deskripsi / Manfaat
 
-Situs Ecoist adalah situs yang bertujuan untuk menyebarkan kesadaran tentang pentingnya penghijauan hutan di Indonesia. Situs Ecoist memberikan ruang bagi 
-masyarakat untuk berpartisipasi dalam kegiatan donasi pohon dan menyebarluaskan campaign-campaign terkait penghijauan hutan yang tersedia. Melalui aplikasi ini, masyarakat dapat sadar dan turut prihatin tentang isu penghijauan hutan di Indonesia.
+Situs Ecoist adalah situs yang bertujuan untuk menyebarkan kesadaran kepada masyarakat tentang pentingnya penghijauan hutan di Indonesia. Situs Ecoist memberikan ruang bagi masyarakat untuk berpartisipasi dalam kegiatan donasi pohon dan menyebarluaskan campaign-campaign terkait penghijauan hutan yang tersedia. Melalui aplikasi ini, masyarakat dapat sadar dan turut prihatin tentang isu penghijauan hutan di Indonesia.
 
 
 ## Modul / Pages
-1. Register - Bryan - [mockup](https://drive.google.com/file/d/1QrvJXd9M2hszYsHtALVTOHyF303DAxBg/view?usp=sharing)
+1. Register - Bryan
 
+    <img src="https://user-images.githubusercontent.com/88226713/195610008-4c8a547f-1617-4cd4-9130-0aa929dbf7d4.png" width="400" height="300"/>
+    
     Register berisi form untuk membuat akun agar user dapat melakukan kegiatan dalam website. 
 
-2. Log In & Log Out - Bryan - [mockup]((https://drive.google.com/file/d/1mrvJIjw1WbOiHeVV3QTALwAZ0OA1cZro/view?usp=sharing))
-   
+2. Log In & Log Out - Bryan 
+    
+    <img src="https://user-images.githubusercontent.com/88226713/195610461-97e441a9-3e48-4d44-b027-a0c008fdcc3c.png" width="400" height="300"/>
+    
     Login dan logout berisi form untuk mengautentikasi dan membedakan antara user dan admin. Menggunakan modal untuk regist , kemudian menggunakan AJAX  POST & GET. 
 
-3. Welcome Page (include deskripsi / about us) - Roy - [mockup](https://drive.google.com/file/d/1R3cLy5J_HX0Q47JaJW8Nd_pvDdhST8hO/view?usp=sharing)
+3. Welcome Page (include deskripsi / about us) - Roy
+    
+    <img src="https://user-images.githubusercontent.com/88226713/195620247-bfdba618-59b4-4bfb-a84c-166358712622.png" width="400" height="600"/>
 
     Merupakan page yang akan ditampilkan saat awal orang memasuki website. Melalui page ini orang dapat di-redirect menuju page lainnya sesuai kebutuhan. Dalam page ini berisi deskripsi website, perkenalan tim pembuat web, serta form FAQ (menggunakan AJAX POST) jika pengunjung ingin memberikan masukan. Dalam laman ini, akan ditampilkan jumlah kampanye yang telah dibuat, bagian ini akan menggunakan AJAX GET.
 
