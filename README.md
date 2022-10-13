@@ -4,15 +4,12 @@
 https://ecoist.herokuapp.com/
 
 ## Anggota
-Azmi Rahmadisha
 
-Bryan Tjandra
-
-Mazaya Nur Labiba
-
-Roy Maruli Tua Nababan
-
-Son Sulung Suryahatta Asnan
+* Azmi Rahmadisha
+* Bryan Tjandra
+* Mazaya Nur Labiba
+* Roy Maruli Tua Nababan
+*Son Sulung Suryahatta Asnan
 
 ## Main Idea
 
