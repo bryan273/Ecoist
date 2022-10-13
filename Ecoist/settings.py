@@ -1,3 +1,7 @@
+import os
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+
 """
 Django settings for Ecoist project.
 
@@ -25,7 +29,7 @@ SECRET_KEY = 'django-insecure-y7-k9mtb+*-tgknn2zq91pjtx#l-e=6xj6f60j+rg%u-r21cr4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -62,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'whitenoise.middleware.WhiteNoiseMiddleware',
             ],
         },
     },
