@@ -1,3 +1,4 @@
 from django.contrib import admin
+from admin_ft.models import admin_ft_entry
 
-# Register your models here.
+admin.site.register(admin_ft_entry)

@@ -1,4 +1,5 @@
 import datetime
+import re
 from django.shortcuts import render, redirect
 from admin_ft.models import admin_ft_entry
 from django.core import serializers
@@ -9,6 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
+import matplotlib.pyplot as plt
+import io
+import urllib, base64
 
 # # Create your views here.
 # @login_required(login_url='login/')
@@ -22,19 +27,33 @@ from django.views.decorators.csrf import csrf_exempt
 #     }
 #     return render(request, "admin_ft.html",context=context)
 
+def admin_ft(request):
+    plt.plot(range(10))
+    fig = plt.gcf()
+    buf=io.BytesIO()
+    fig.savefig(buf, format='png')
+    buf.seek(0)
+    string = base64.b64encode(buf.read())
+    uri = urllib.parse.quote(string)
+    return render(request, 'admin_ft.html', {'data':uri})
+
 def register(request):
     form = UserCreationForm()
 
     if request.method == "POST":
+        uname = request.POST.get('username')
         form = UserCreationForm(request.POST)
+        print('test')
         if form.is_valid():
+            print('test2')
             form.save()
             messages.success(request, 'Akun telah berhasil dibuat!')
+            getUser = User.objects.get(username=uname)
+            admin_ft_entry.objects.create(user=getUser, username=getUser.username)
             return redirect('admin_ft:login')
     
     context = {'form':form}
     return render(request, 'register.html', context)
-
 
 def login_user(request):
     if request.method == 'POST':
