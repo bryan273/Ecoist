@@ -8,7 +8,7 @@ from django.conf import settings
 
 
 class Participants(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
     nama_pendaftar = models.CharField(max_length=50, default='')
     email_pendaftar = models.CharField(max_length=50, default='')
     phone_number = models.CharField(max_length=15, default='0')
