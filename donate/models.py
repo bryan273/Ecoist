@@ -5,5 +5,5 @@ from django.contrib.auth.models import User
 class Donasi(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     nominal = models.IntegerField()
-    pohon = models.CharField(max_length=255)
+    jumlahPohon = models.IntegerField()
     pesan = models.TextField()
