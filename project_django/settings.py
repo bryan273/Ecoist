@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'theme',
     'django_browser_reload',
     'admin_ft',
+    'campaign',
 ]
 
 TAILWIND_APP_NAME = 'theme'
