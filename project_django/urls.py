@@ -21,4 +21,8 @@ urlpatterns = [
     path('', include('example_app.urls')),
     path('', include('admin_ft.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
+    path('', include('example_app.urls')),
+    path('donate/', include('donate.urls')),
+    path('participate/', include('participate.urls')),
+    path('campaign/', include('campaign.urls')),
 ]
