@@ -13,7 +13,4 @@ class ParticipantsForm(forms.Form):
     phone_number = forms.CharField(max_length=12, required=True, label="Phone Number")
     what_can_you_help_with = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
                       choices=NGO_CHOICES, required=True, label="What can you help with?")
-
-    reason_to_participate = forms.CharField(widget=forms.Textarea(attrs={
-        'rows' : 4,
-        }), label="Why do you want to join us?")
+    reason_to_participate = forms.CharField(max_length=2000, widget=forms.Textarea, label="Why do you want to join us?")
