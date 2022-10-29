@@ -20,6 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ecoist/', include('admin_ft.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
-    path('campaign/', include('campaign.urls'))
-
+    path('participate/', include('participate.urls')),
+    path('campaign/', include('campaign.urls')),
 ]

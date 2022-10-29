@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'theme',
     'django_browser_reload',
     'admin_ft',
+    'participate',
     'campaign',
 ]
 
