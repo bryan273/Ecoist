@@ -223,11 +223,21 @@ textarea {
             <span class="sr-only">View notifications</span>
             
           </button>
+
           <div class="relative ml-3">
+            {% if not user.is_authenticated %}
             <div>
                 <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/login/'">Login</button>
             </div>
+            {% else %} 
+          
+            <div class="flex space-x-4">
+              <p class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{user.get_username}}</p>
+              <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/logout/'">Logout</button>
+            </div>
+            {% endif %}
           </div>
+
         </div>
       </div>
     </div>
@@ -237,7 +247,7 @@ textarea {
       <br>
 
     <div class="hiu">
-        <h1 class="text-2xl font-semibold">Participate in (harusnya nama Campaign au dah gimana ambilnya)</h1>
+        <h1 class="text-2xl font-semibold">Participate in {{campaign.title}}</h1>
         <div id="multi-step-form-container">
             <!-- Form Steps / Progress Bar -->
             <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
@@ -295,7 +305,7 @@ textarea {
                         
                         {{ form.reason_to_participate.label }}
                         {{ form.reason_to_participate }}
-                        
+
                         <div class="mt-3 flex items-center justify-center gap-2">
                         <button class="button btn-navigate-form-step" type="submit" step_number="2" id="butts">Join</button>
                         </div>
