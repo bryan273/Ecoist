@@ -9,6 +9,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+from admin_ft.views import *
+
 
 # # Create your views here.
 # @login_required(login_url='login/')
