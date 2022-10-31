@@ -8,5 +8,6 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login_user, name='login'), 
     path('logout/', logout_user, name='logout'),
-    # path('add/', add_ajax, name='add_ajax'),
+    path('admin_ft/', admin_ft, name='admin_ft'),
+    path('add/', add_ajax, name='add_ajax'),
 ]
