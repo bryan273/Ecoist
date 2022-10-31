@@ -5,7 +5,235 @@
 {% endblock meta %}
 
 {% block content %}  
-<div>
-    <img src="data:image/png;base64,{{ data }}" alt="" height="250", width="250">
+
+
+
+<div class="bg-blue-100 min-h-screen min-w-full">
+  <nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="flex h-16 items-center justify-between">
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex flex-shrink-0 items-center">
+            <h1 class="font-bold text-blue-500 text-2xl mt-0.5 mb-1 ml-0.5">E C O I S T</h1>
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4 ">
+                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Campaign List</a>
+                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Create Campaign</a> 
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+            <span class="sr-only">View notifications</span>
+            
+          </button>
+          <div class="relative ml-3">
+            <div>
+                <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/login/'">Login</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- overlay -->
+  <div id="modal_overlay" class="hidden absolute inset-0 bg-black bg-opacity-30 h-full w-screen flex justify-center items-center pt-10 md:pt-0">
+    <!-- modal -->
+    <div id="modal" class="opacity-0 transform -translate-y-full scale-150 relative h-fit bg-white w-4/12 rounded shadow-lg transition-opacity transition-transform duration-300">
+      <!-- button close -->
+      <button 
+      onclick="openModal(false,-1)"
+        class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-2xl w-10 h-10 rounded-full focus:outline-none text-white">
+        &cross;
+      </button>
+      <!-- body -->
+      <div class="flex justify-center items-center w-full p-6 bg-white" id="count">
+      </div>
+      <!-- <div class="flex justify-center items-center w-full pt-6 bg-white" id="donation_count">   
+      </div> -->
+      <!-- <div class="flex justify-center items-center w-full pt-6 bg-white" id="donation_count">   
+      </div> -->
+    </div>
+  </div>
+  <div class="p-6">
+    <div class="flex gap-5">
+      <button onclick="openModal(true,0)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        See Total Users
+      </button>
+      <button onclick="openModal(true,1)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        See Total Donations
+      </button>
+      <!-- <button onclick="openModal(true)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        Form
+      </button> -->
+      <!-- <button onclick="openModal(true)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        See Total User
+      </button>
+      <button onclick="openModal(true)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        See Total User
+      </button> -->
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <div class="overflow-x-auto">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-hidden">
+          <table class="min-w-full">
+            <thead class="border-b">
+              <tr>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  #
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Nama
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Nominal Donasi
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Jumlah Pohon
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Nama Pohon
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Judul Kampanye
+                </th>
+                <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                  Deskripsi Kampanye
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for data in table %}
+              <tr class="bg-white border-b">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{data.index}}</td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{data.username}}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{data.nominal}}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{data.jumlahPohon}}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{data.namaPohon}}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{data.title}}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  {{data.description}}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <img src="data:image/png;base64,{{ data }}" alt="" height="600", width="600" class="bg-black">
 </div>
+
+
+	<!-- jQuery -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!--Datatables -->
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+	<script>
+		$(document).ready(function() {
+
+			var table = $('#example').DataTable({
+					responsive: true
+				})
+				.columns.adjust()
+				.responsive.recalc();
+		});
+	</script>
+
+</div>
+
+<script>
+const modal_overlay = document.querySelector('#modal_overlay');
+const modal = document.querySelector('#modal');
+
+function openModal (value, param){
+const modalCl = modal.classList
+const overlayCl = modal_overlay
+if(value){
+  overlayCl.classList.remove('hidden')
+  setTimeout(() => {
+    modalCl.remove('opacity-0')
+    modalCl.remove('-translate-y-full')
+    modalCl.remove('scale-150')
+    console.log(value)
+    if (param==0){
+      getUsers();
+    }
+    else if (param==1){
+      getNominal();
+    }
+    
+    
+  }, 100);
+} else {
+  modalCl.add('-translate-y-full')
+  setTimeout(() => {
+    modalCl.add('opacity-0')
+    modalCl.add('scale-150')
+    $('#count').html('')
+    $('#count').html('')
+    // $('#count').html(tab)
+  }, 100);
+  setTimeout(() => overlayCl.classList.add('hidden'), 300);
+}
+} 
+
+function getUsers() {
+let tab= "";
+$.ajax({
+    url: "{% url 'admin_ft:add_ajax' %}",
+    type: "GET",
+    dataType: "json",
+    success: function(resp){  
+        let cnt=0;
+        for (let i of Object.keys(resp)['username'].values()){cnt++;}
+        console.log(resp)
+        tab=`<div class="bg-white text-center"><p>Total Users : ${cnt}</p></div>`
+        $('#count').html(tab);
+    },
+    error: function(resp){
+        console.log(resp)
+        console.log('Error?');
+    }
+})
+};
+
+function getNominal() {
+let tab= "";
+$.ajax({
+    url: "{% url 'admin_ft:add_ajax' %}",
+    type: "GET",
+    dataType: "json",
+    success: function(resp){  
+        let cnt=0;
+        for (let i of resp){cnt+=resp.nominal;
+          console.log(cnt)
+        }
+        tab=`<div class="bg-white text-center"><p>Total Donations : ${cnt}</p></div>`
+        $('#count').html(tab);
+    },
+    error: function(resp){
+        console.log('Error?');
+    }
+})
+};
+</script>
 {% endblock content %}
