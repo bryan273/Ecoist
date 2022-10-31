@@ -51,30 +51,32 @@
       </button>
       <!-- body -->
       <div class="flex justify-center items-center w-full p-6 bg-white" id="count">
+        
       </div>
-      <!-- <div class="flex justify-center items-center w-full pt-6 bg-white" id="donation_count">   
-      </div> -->
-      <!-- <div class="flex justify-center items-center w-full pt-6 bg-white" id="donation_count">   
-      </div> -->
     </div>
   </div>
-  <div class="p-6">
-    <div class="flex gap-5">
+  <div class="px-8 py-6 flex justify-between">
+    <div class="flex gap-5 space">
       <button onclick="openModal(true,0)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
-        See Total Users
+        Total Users
       </button>
       <button onclick="openModal(true,1)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
-        See Total Donations
+        Donation Amount
       </button>
-      <!-- <button onclick="openModal(true)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
-        Form
-      </button> -->
-      <!-- <button onclick="openModal(true)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
-        See Total User
+      <button onclick="openModal(true,2)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        Total Tree
       </button>
-      <button onclick="openModal(true)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
-        See Total User
-      </button> -->
+      <button onclick="openModal(true,3)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        Total Campagin
+      </button>
+      <button onclick="openModal(true,4)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        Total Donation
+      </button>
+    </div>
+    <div class="flex">
+      <button id='add-note' onclick="openModal(true,5)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+        Add Notes
+      </button>
     </div>
   </div>
   <div class="flex flex-col">
@@ -88,22 +90,22 @@
                   #
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Nama
+                  Name
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Nominal Donasi
+                  Donation Amount
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Jumlah Pohon
+                  Total Tree
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Nama Pohon
+                  Total Campaign
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Judul Kampanye
+                  Total Donation 
                 </th>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                  Deskripsi Kampanye
+                  Notes
                 </th>
               </tr>
             </thead>
@@ -121,13 +123,13 @@
                   {{data.jumlahPohon}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.namaPohon}}
+                  {{data.kampanye}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.title}}
+                  {{data.donasi}}
                 </td>
                 <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.description}}
+                  {{data.noted}}
                 </td>
               </tr>
               {% endfor %}
@@ -174,14 +176,25 @@ if(value){
     modalCl.remove('-translate-y-full')
     modalCl.remove('scale-150')
     console.log(value)
-    if (param==0){
-      getUsers();
+    if (param==0){getValue('username','Total Users')}
+    else if (param==1){getValue('nominal','Total Donations Amount')}
+    else if (param==2){getValue('jumlahPohon','Total Trees')}
+    else if (param==3){getValue('kampanye','Total Joined Campaign')}
+    else if (param==4){getValue('donasi','Total Joined Donation')}
+    else if (param==5){
+      $('#count').html(
+      `  
+      <div>
+        <div class="font-bold">Nama: </div>
+        <div>{{form.username}}</div>
+        <br>
+        <div class="font-bold">Notes:</div>
+        <div>{{form.noted}}</div>
+      </div>
+      `
+      );
     }
-    else if (param==1){
-      getNominal();
-    }
-    
-    
+
   }, 100);
 } else {
   modalCl.add('-translate-y-full')
@@ -189,14 +202,12 @@ if(value){
     modalCl.add('opacity-0')
     modalCl.add('scale-150')
     $('#count').html('')
-    $('#count').html('')
-    // $('#count').html(tab)
   }, 100);
   setTimeout(() => overlayCl.classList.add('hidden'), 300);
 }
 } 
 
-function getUsers() {
+function getValue(col, desc) {
 let tab= "";
 $.ajax({
     url: "{% url 'admin_ft:add_ajax' %}",
@@ -204,36 +215,40 @@ $.ajax({
     dataType: "json",
     success: function(resp){  
         let cnt=0;
-        for (let i of Object.keys(resp)['username'].values()){cnt++;}
-        console.log(resp)
-        tab=`<div class="bg-white text-center"><p>Total Users : ${cnt}</p></div>`
+        for (let i of Object.values(resp[col])){
+          if (typeof i == 'string'){
+            cnt++;
+          }
+          else{
+            cnt+=i;
+          }
+        }
+        tab=`<div class="bg-white text-center"><p>${desc} : ${cnt}</p></div>`
         $('#count').html(tab);
     },
     error: function(resp){
-        console.log(resp)
         console.log('Error?');
     }
 })
 };
 
-function getNominal() {
-let tab= "";
-$.ajax({
-    url: "{% url 'admin_ft:add_ajax' %}",
-    type: "GET",
-    dataType: "json",
-    success: function(resp){  
-        let cnt=0;
-        for (let i of resp){cnt+=resp.nominal;
-          console.log(cnt)
-        }
-        tab=`<div class="bg-white text-center"><p>Total Donations : ${cnt}</p></div>`
-        $('#count').html(tab);
-    },
-    error: function(resp){
-        console.log('Error?');
-    }
-})
-};
+$('#add-note').click(function (e) {
+        console.log("add")
+        e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "{% url 'admin_ft:create_notes' %}",
+          data: {
+            nama: $("#id_usernama").val(),
+            note: $("#id_noted").val(),
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+          },
+          dataType: "json",
+          success: function (result, status) {
+            $("#id_usernama").val(''),
+            $("#id_noted").val('')
+          },
+        });
+  });
 </script>
 {% endblock content %}

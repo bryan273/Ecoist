@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', logout_user, name='logout'),
     path('admin_ft/', admin_ft, name='admin_ft'),
     path('add/', add_ajax, name='add_ajax'),
+    path('notes/', create_notes, name='create_notes'),
 ]
