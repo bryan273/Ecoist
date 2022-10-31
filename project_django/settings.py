@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'donate',
     'participate',
     'campaign',
+    'homepage',
 ]
 
 TAILWIND_APP_NAME = 'theme'
