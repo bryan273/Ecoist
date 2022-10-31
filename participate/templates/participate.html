@@ -374,41 +374,7 @@ textarea {
                 </section>
                 <!-- Step 3 Content, default hidden on page load. -->
                 <section id="step-3" class="form-step d-none">
-                    <div class="container center" id="tasks">
-                        <script>
-                          async function getTodolist() {
-                            return fetch("{% url 'participate:show_json' %}")
-                            .then(response => response.json())
-                            .then(participants => {
-                              return participants;
-                            })
-                            .catch(error => {
-                              console.error("ERROR:", error);
-                            })
-                          }
-                        
-                          async function refreshForm() {
-                          getTodolist().then(participants => {
-                            let todos = "";
-                        
-                              const card = `
-                              <div class="card">
-                                      <p class="text-xl text-center">Thank you for participating, ${participants[participants.length-1].fields.nama_pendaftar}!</p>
-                                      <hr/>
-                                      <br>
-                                      <p class="text-xl text-center">We will send further information regarding this campaign to ${participants[participants.length-1].fields.email_pendaftar} :) </p>
-                                      <br>
-                              </div>
-                              `;
-                        
-                              todos += card;
-                        
-                            document.getElementById("tasks").innerHTML = todos;
-                          });
-                        }
-                        </script>
-    
-                        
+                    <div class="container center" id="tasks">    
                         </div>
 
                         <div class="mt-3 flex items-center justify-center gap-2">
@@ -419,6 +385,39 @@ textarea {
         </div>
     </div>
 </html>
+
+<script>
+    async function getTodolist() {
+      return fetch("{% url 'participate:show_json' %}")
+      .then(response => response.json())
+      .then(participants => {
+        return participants;
+      })
+      .catch(error => {
+        console.error("ERROR:", error);
+      })
+    }
+  
+    async function refreshForm() {
+    getTodolist().then(participants => {
+      let todos = "";
+  
+        const card = `
+        <div class="card">
+                <p class="text-xl text-center">Thank you for participating, ${participants[participants.length-1].fields.nama_pendaftar}!</p>
+                <hr/>
+                <br>
+                <p class="text-xl text-center">We will send further information regarding this campaign to ${participants[participants.length-1].fields.email_pendaftar} :) </p>
+                <br>
+        </div>
+        `;
+  
+        todos += card;
+  
+      document.getElementById("tasks").innerHTML = todos;
+    });
+  }
+  </script>
 
 <script>
     function addTodolist() {
@@ -432,6 +431,8 @@ textarea {
   document.getElementById("butts").onclick = addTodolist
   refreshForm()
 </script>
+
+
 
 <script>
     /**
