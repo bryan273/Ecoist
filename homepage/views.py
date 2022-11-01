@@ -17,20 +17,23 @@ def show_homepage(request):
     context = {
             "form":form,
         }
-    #if request.user.is_authenticated:
-       # context['last_login'].append(request.COOKIES['last_login'].Value)
+    if request.user.is_authenticated:
+        context['last_login'].append(request.COOKIES.get('last_login'))
     return render(request,'homepage.html',context)
 
-@login_required(login_url=' ../login/')
+@login_required(login_url='/login/')
 def submitquestion(request):
+    print("bekerja kapten")
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
+            print()
             new_question = Question(
+                user = request.user,
                 question=request.POST.get('question'),
             )
             new_question.save()
-            response = json.loads(serializers.serialize('json',[new_question]))
+            response = serializers.serialize('json',[new_question])
             return JsonResponse(response, safe=False)
     return HttpResponseBadRequest
 
