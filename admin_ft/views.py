@@ -134,7 +134,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user) # melakukan login terlebih dahulu
-            if username=='bryan273':
+            if username=='admin_ecoist':
                 response = HttpResponseRedirect(reverse("admin_ft:admin_ft")) # membuat response
             else:
                 response = HttpResponseRedirect(reverse("homepage:show_homepage")) # membuat response
