@@ -18,3 +18,4 @@ django-tailwind
 matplotlib
 pandas
 numpy
+seaborn
