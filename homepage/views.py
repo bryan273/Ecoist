@@ -17,7 +17,7 @@ def show_homepage(request):
     context = {
             "form":form,
         }
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and (not request.user.is_staff) :
         context['last_login'].append(request.COOKIES.get('last_login'))
     return render(request,'homepage.html',context)
 

@@ -1,17 +1,18 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block meta %}
 <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
 {% endblock meta %}
 
 {% block content %}
     <!-- nav bar -->
     <style>
-         * {
+      * {
         border: 1px solid red;
-      }   
+      }    
     </style>
-    <div class="bg-gradient-to-b from-sky-400 to-green-200"> 
+    <div class="bg-blue-100"> 
       <div class="content-center ">
         <nav class="bg-gray-800">
           <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -37,7 +38,7 @@
                 <div class="relative ml-3">
                   {% if not user.is_authenticated %}
                   <div>
-                      <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/login/'">Login</button>
+                      <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/login/'">Login</button>
                   </div>
                   {% else %} 
                 
@@ -64,13 +65,13 @@
       <container class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-10 py-10 mb-10 flex justify-center">
         
         <div class=" bg-white rounded-lg  shadow-md dark:bg-gray-800 dark:border-gray-700 transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl overflow-hidden">
-          <a href="#">
+          <div>
               <img class="rounded-t-lg" src="https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-          </a>
+          </div>
           <div class="p-5">
-              <a href="#">
+              <div>
                   <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Make donations</h5>
-              </a>
+              </div>
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 Contribute to various campaigns by donating and help campaigns to reach their goals
               </p>
@@ -81,15 +82,15 @@
         </div>
 
         <div class=" bg-white rounded-lg  shadow-md dark:bg-gray-800 dark:border-gray-700 transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl">
-          <a href="#">
+          <div>
               <img class="rounded-t-lg" src="https://images.pexels.com/photos/7656748/pexels-photo-7656748.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2 " alt="">
-          </a>
+          </div>
           <div class="p-5">
-              <a href="#">
+              <div>
                   <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Volunteer
                   </h5>
-              </a>
+                </div>
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 Find campaigns that match your location and situation, then work together with fellow volunteers to create meaningful changes
               </p>
@@ -100,15 +101,15 @@
         </div>
 
         <div class=" bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl">
-          <a href="#">
+          <div>
               <img class="rounded-t-lg" src="https://images.pexels.com/photos/6224/hands-people-woman-working.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="">
-          </a>
+          </div>
           <div class="p-5">
-              <a href="#">
+              <div>
                   <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Start a campaign
                   </h5>
-              </a>
+              </div>
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 Create your own campaign and get fellow environmentalists to work with you in achieving that goals
               </p>
@@ -133,7 +134,7 @@
                 <p id="campaign-count" class="text-[120px] textfont-bold justify-center text-center">
                 </p>
                 <p id="count-detail" class="text-gray-700  text-center mb-10 ">
-                  Click the button above to get know how many campaigns already made
+                  Click the button above to know how many campaigns already made
                 </p>
               </div>
 
@@ -163,21 +164,24 @@
       </container>
 
       <!-- leave a question form-->
-          <div id="post-form" class= " flex justify-center mt-24 mb-10">
-            <div class="w-4/5 grid grid-cols-1 text-center shadow-md  rounded-lg bg-sky-200 md:w-2/5 p-5 ">
-              <p>
-                Have something to ask about Ecoist? Drop your question below?
+          <div id="post-form" class= " flex justify-center mt-24 mb-10 ">
+            <div class="w-4/5 grid grid-cols-1 text-center shadow-md  rounded-lg bg-gradient-to-b from-sky-200 to-sky-300 md:w-2/5 p-5 ">
+              <p class="text-gray-700" >
+                Have something to ask about Ecoist? 
               </p>
-              <form id="question-form" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+              <p class="text-gray-700 mb-5">
+                Drop your question below!
+              </p>
+              <form id="question-form" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-6 mb-2">
                 {% csrf_token %}
                 <fieldset>
-                  <div>            
+                  <div class="grid grid-cols-1">            
                     {{form}}
                   </div>
                   {% if request.user.is_autheticated %}
                     <button id="submit-btn" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
                   {% else %}
-                    <p id class="text-gray-500  text-center mb-10 "> login first to submit your question </p>
+                    <p id class="text-gray-500  text-center mb-5 "> login first to submit your question </p>
                   {% endif %}
                 </fieldset>
               </form>
@@ -194,55 +198,10 @@
           <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 Ecoist™. All Rights (not) Reserved.
           </span>
         </footer>
-
       </div>
-
-      <script>
-        $(document).ready(() => {
-          $('#submit-btn').click(function(e) {
-            e.preventDefault()
-            let form = $('#question-form')
-            $.ajax({
-                type: 'POST',
-                url: 'submit-question/',
-                data: form.serialize(),
-                success: (response) => {
-                  form.val();
-                  console.log(response);
-                  $('textarea[name=question]').val('');
-                },
-            }) 
-          })
-        })
-
-        const getButton =  document.getElementById('get-count-btn');
-        
-        function gege(){
-          $.get(
-            '/get-campaign-sum/',
-            (res) => {
-              console.log(res)
-              $('#campaign-count').empty();
-              $('#count-detail').empty();
-              $('#campaign-count').append(
-                `
-                ${res}
-                `
-              )
-              $('#count-detail').append(
-                `
-                campaigns has already been started in Ecoist
-
-                `
-              )
-            }
-            
-          )
-        }
-
-        $(`#get-count-btn`).attr('onclick', `gege()`);
-         
-      </script>
-
+    </div>
+    
+    <script src="{% static 'js/homepage.js' %}" type="text/javascript"></script>
+    
 
 {% endblock content %}
