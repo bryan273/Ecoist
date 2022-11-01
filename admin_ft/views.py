@@ -137,7 +137,7 @@ def login_user(request):
             if username=='bryan273':
                 response = HttpResponseRedirect(reverse("admin_ft:admin_ft")) # membuat response
             else:
-                response = HttpResponseRedirect(reverse("#")) # membuat response
+                response = HttpResponseRedirect(reverse("homepage:show_homepage")) # membuat response
             response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
             return response
         else:
