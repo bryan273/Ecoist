@@ -10,7 +10,7 @@ from campaign.models import Campaign
 
 class Participants(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
-    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, to_field='title', default='-', null=True)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, to_field='title', default=None, null=True)
     nama_pendaftar = models.CharField(max_length=50, default='')
     email_pendaftar = models.CharField(max_length=50, default='')
     phone_number = models.CharField(max_length=15, default='0')
