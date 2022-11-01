@@ -20,17 +20,18 @@
                             <div class="hidden sm:ml-6 sm:block">
                                 <div class="flex space-x-4 ">
                                     <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Campaign List</a>
+                                    <a href="{% url 'campaign:show_campaign' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Campaign List</a>
                                     <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Create Campaign</a> 
                                 </div>
                             </div>
                         </div>
                         <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                            <div class="relative ml-3">
-                                <div>
-                                    <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/login/'">Login</button>
-                                </div>
-                            </div>
+                            <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                                <span class="sr-only">View notifications</span>
+                            </button>
+                        <div class="relative ml-3">
+                        <div>
+                            <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/login/'">Login</button>
                         </div>
                     </div>
                 </div>
@@ -41,7 +42,6 @@
                 <div class="form-floating m-10">
                     <label class="font-semibold text-2xl">Donation Amount</label>
                     <br>
-                    <!-- <input type="text" class="form-control px-4 py-2 text-l font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="nominal" name="nominal"> -->
                     {{ form.nominal }}
                     <h6 class="text-gray-500">Minimum donation IDR 1.000</h6>
                 </div>
@@ -50,12 +50,10 @@
                     <br>
                     <label class="font-semibold text-align-left w-20">Tree Name</label>
                     <br>
-                    <!-- <input type="text" class="form-control px-4 py-2 text-l font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="nominal" name="nominal"> -->
                     {{ form.namaPohon }}
                     <br>
                     <label class="font-semibold text-align-left w-20">Number of Trees</label>
                     <br>
-                    <!-- <input type="text" class="form-control px-4 py-2 text-l font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="nominal" name="nominal"> -->
                     {{ form.jumlahPohon }}
                     <h6 class="text-gray-500">Minimum 1</h6>
                 </div>
@@ -63,9 +61,7 @@
                     <label class="font-semibold text-2xl">Notes for Us</label> 
                     <br>
                     {{ form.pesan }}
-                    <!-- <textarea type="textarea" cols="50" rows="6" maxlength="500" class="form-control px-4 py-2 text-l font-normal text-gray-700 bg-gray-100 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"></textarea>  -->
                 </div>
-                <!-- <input class="inline-block px-7 py-3 bg-blue-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-400 active:shadow-lg transition duration-150 ease-in-out mb-10" type="submit" value="Donasi"> -->
                 <button id="showModal" class="showModal inline-block px-7 py-3 bg-blue-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-400 active:shadow-lg transition duration-150 ease-in-out mb-10" type="submit" value="submit">Donate</button>      
             </form>
         </div>
@@ -92,13 +88,26 @@
                                 </p>
                             </div>
                             <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                                <button data-modal-toggle="medium-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                                <button data-modal-toggle="medium-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 acc-button">I accept</button>
                                 <button data-modal-toggle="medium-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600 close-modal">Decline</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 `)
+                const modal = document.querySelector('.modal');
+                const acc = document.querySelector('.acc-button');
+                const close = document.querySelector('.close-modal');
+                const xModal = document.querySelector('.x-modal');
+                close.addEventListener('click', function() {
+                    modal.classList.add('hidden')
+                });
+                xModal.addEventListener('click', function() {
+                    modal.classList.add('hidden')
+                });
+                acc.addEventListener('click', function() {
+                    location.href='/campaign'
+                });
             }
         });
             
@@ -127,105 +136,28 @@
                                 </p>
                             </div>
                             <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                                <button data-modal-toggle="medium-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
+                                <button data-modal-toggle="medium-modal" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 acc-button">I accept</button>
                                 <button data-modal-toggle="medium-modal" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600 close-modal">Decline</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 `)
+                const modal = document.querySelector('.modal');
+                const acc = document.querySelector('.acc-button');
+                const close = document.querySelector('.close-modal');
+                const xModal = document.querySelector('.x-modal');
+                close.addEventListener('click', function() {
+                    modal.classList.add('hidden')
+                });
+                xModal.addEventListener('click', function() {
+                    modal.classList.add('hidden')
+                });
+                acc.addEventListener('click', function() {
+                    location.href='/campaign'
+                });
             })
         })
     });
 </script>
-<!-- <script>
-    const modal = document.querySelector('.modal');
-    const show = document.querySelector('.showModal');
-    const close = document.querySelector('.close-modal');
-    const xModal = document.querySelector('.x-modal');
-    show.addEventListener('click', function() {
-        modal.classList.remove('hidden')
-    });
-    close.addEventListener('click', function() {
-        modal.classList.add('hidden')
-    });
-    xModal.addEventListener('click', function() {
-        modal.classList.add('hidden')
-    });
-    $(document).ready(function() {
-        $.get("/donate/json/", function(data) {
-            $(".message").text("Selamat kamu telah berdonasi sebanyak ${data.fields.nominal} rupiah!")
-        });
-        // $(".showModal").click(function() {
-        //     const nominal = $('#nominal').val()
-        //     const namaPohon = $('#namaPohon').val()
-        //     const jumlahPohon = $('#jumlahPohon').val()
-        //     const pesan = $('#pesan').val()
-        //     const data = {nominal:nominal,namaPohon:namaPohon,jumlahPohon:jumlahPohon,pesan:pesan,csrfmiddlewaretoken:'{{ csrf_token }}'}
-        //     $.ajax({url:"/donate/donate_ajax/",data:})
-        // })
-    });
-</script> -->
-<!-- <script>
-    function addTodolist() {
-    fetch("{% url 'donate:donate_ajax' %}", {
-          method: "POST",
-          body: new FormData(document.querySelector('#donateForm'))
-      }).then(refreshForm)
-    return false
-  }
-
-  document.getElementById("showModal").onclick = addTodolist
-  refreshForm()
-</script>
-
-<script>
-    function validateForm() {
-  let x = document.forms["#donateForm"]["nominal"].value;
-  let y = document.forms["#donateForm"]["namaPohon"].value;
-  let z = document.forms["#donateForm"]["jumlahPohon"].value;
-  if (y == "" && z != "") {
-    alert("Name of tree must be filled out");
-    return false;
-  } else if (z == "" && y != "") {
-    alert("Number of tree must be filled out");
-    return false;
-  } if (z == "" && x == "" && y == "") {
-    alert("The donation must be filled out");
-    return false;
-  }
-}
-
-document.getElementById("showModal").onsubmit = validateForm
-</script>
-<script>
-    async function getTodolist() {
-      return fetch("{% url 'donate:show_json' %}")
-      .then(response => response.json())
-      .then(participants => {
-        return participants;
-      })
-      .catch(error => {
-        console.error("ERROR:", error);
-      })
-    }
-  
-    async function refreshForm() {
-    getTodolist().then(participants => {
-      let todos = "";
-  
-        const card = `
-        <div class="card">
-                <p class="text-xl text-center">Thank you, you have donated ${participants[participants.length-1].fields.nominal} and ${participants[participants.length-1].fields.jumlahPohon}x ${participants[participants.length-1].fields.namaPohon}!</p>
-                <hr/>
-                <br>
-        </div>
-        `;
-  
-        todos += card;
-  
-      document.getElementById("tasks").innerHTML = todos;
-    });
-  }
-  </script> -->
 {% endblock content %}
