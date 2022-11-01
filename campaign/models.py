@@ -3,7 +3,6 @@ from django.conf import settings
 
 class Campaign (models.Model):
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,blank=True, null=True,)
-    title = models.TextField()
+    title = models.TextField(unique=True)
     description = models.TextField()
     campImage = models.ImageField()
