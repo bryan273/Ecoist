@@ -8,7 +8,7 @@
 
 
 
-<div class="bg-blue-100 min-h-screen min-w-full">
+<div id="content" class="bg-blue-100 min-h-screen min-w-full">
   <nav class="bg-gray-800">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>
-        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+        <div class="right-0 flex items-center pr-2 static inset-auto sm:ml-6 sm:pr-0">
           <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
             <span class="sr-only">View notifications</span>
             
@@ -55,8 +55,8 @@
       </div>
     </div>
   </div>
-  <div class="px-8 py-6 flex justify-between">
-    <div class="flex gap-5 space">
+  <div class="px-8 py-6 flex lg:flex-row flex-col gap-2 justify-between">
+    <div class="flex md:flex-row flex-col gap-2 space justify-between">
       <button onclick="openModal(true,0)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
         Total Users
       </button>
@@ -74,17 +74,18 @@
       </button>
     </div>
     <div class="flex">
-      <button id='add-note' onclick="openModal(true,5)" class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
+      <button onclick="openModal(true,5)" class="bg-blue-500 w-full lg:w-fit hover:bg-blue-600 px-4 py-2 rounded text-white focus:outline-none">
         Add Notes
       </button>
     </div>
   </div>
+  <h1 class="font-bold text-center text-lg">Top 5 Users Donation</h1>
   <div class="flex flex-col">
     <div class="overflow-x-auto">
       <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
         <div class="overflow-hidden">
           <table class="min-w-full">
-            <thead class="border-b">
+            <thead class="bg-slate-300 border-b">
               <tr>
                 <th scope="col" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
                   #
@@ -109,38 +110,30 @@
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {% for data in table %}
-              <tr class="bg-white border-b">
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{data.index}}</td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.username}}
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.nominal}}
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.jumlahPohon}}
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.kampanye}}
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.donasi}}
-                </td>
-                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
-                  {{data.noted}}
-                </td>
-              </tr>
-              {% endfor %}
+            <tbody id="create-table">
+
             </tbody>
           </table>
         </div>
       </div>
     </div>
   </div>
-  <img src="data:image/png;base64,{{ data }}" alt="" height="600", width="600" class="bg-black">
+  <div class="lg:grid lg:grid-cols-2 w-screen">
+    <div class="flex justify-center">
+      <img class="px-6" src="data:image/png;base64,{{ top_5_donation }}" alt="" height="600", width="600">
+    </div>
+    <div class="flex justify-center">
+      <img class="px-6" src="data:image/png;base64,{{ top_5_campaign }}" alt="" height="600", width="600">
+    </div>
+    <div class="flex justify-center">
+      <img class="px-6" src="data:image/png;base64,{{ dist_donation }}" alt="" height="600", width="600">
+    </div>
+    <div class="flex justify-center">
+      <img class="px-6" src="data:image/png;base64,{{ dist_kampanye }}" alt="" height="600", width="600">
+    </div>
+  </div>
 </div>
+
 
 
 	<!-- jQuery -->
@@ -165,11 +158,37 @@
 <script>
 const modal_overlay = document.querySelector('#modal_overlay');
 const modal = document.querySelector('#modal');
+const table = (a,b,c,d,e,f,g) =>`
+              <tr class="bg-white border-b">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${a}</td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  ${b}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  ${c}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  ${d}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  ${e}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  ${f}
+                </td>
+                <td class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                  ${g}
+                </td>
+              </tr>`
 
 function openModal (value, param){
 const modalCl = modal.classList
 const overlayCl = modal_overlay
+const contentEl = document.getElementById("content")
 if(value){
+  contentEl.classList.add("overflow-y-hidden")
+  contentEl.classList.add("h-screen")
+
   overlayCl.classList.remove('hidden')
   setTimeout(() => {
     modalCl.remove('opacity-0')
@@ -185,11 +204,18 @@ if(value){
       $('#count').html(
       `  
       <div>
-        <div class="font-bold">Nama: </div>
+        <br>
+        <div>Nama: </div>
         <div>{{form.username}}</div>
         <br>
-        <div class="font-bold">Notes:</div>
+        <div>Notes:</div>
         <div>{{form.noted}}</div>
+        <br><br>
+        <div class='text-center pb-2'>
+          <button id='add-note'
+          class="w-36 px-7 py-3 bg-blue-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-400 active:shadow-lg transition duration-150 ease-in-out">
+          Create Task</button>
+        </div>
       </div>
       `
       );
@@ -197,6 +223,9 @@ if(value){
 
   }, 100);
 } else {
+  contentEl.classList.remove("overflow-y-hidden")
+  contentEl.classList.remove("h-screen")
+
   modalCl.add('-translate-y-full')
   setTimeout(() => {
     modalCl.add('opacity-0')
@@ -206,6 +235,38 @@ if(value){
   setTimeout(() => overlayCl.classList.add('hidden'), 300);
 }
 } 
+
+$(document).ready(function () {
+  console.log("hi")
+  loadData();
+});
+
+function loadData() {
+  console.log("load")
+  $.ajax({
+    url: "{% url 'admin_ft:add_ajax_5' %}",
+    type: "GET",
+    dataType: "json",
+    success: function (resp) {
+      console.log(resp)
+      // $('#create-table').html = "";
+      document.getElementById('create-table').innerHTML = '';
+      for (const x of Array(5).keys()) {
+        console.log(x)
+        $('#create-table').append(table(Object.values(resp['index'])[x],
+                                  Object.values(resp['username'])[x],
+                                  Object.values(resp['nominal'])[x],
+                                  Object.values(resp['jumlahPohon'])[x],
+                                  Object.values(resp['kampanye'])[x],
+                                  Object.values(resp['donasi'])[x],
+                                  Object.values(resp['noted'])[x]));
+      }
+    },
+    error: function (resp) {
+      console.log('Error?');
+    }
+  })
+};
 
 function getValue(col, desc) {
 let tab= "";
@@ -232,21 +293,22 @@ $.ajax({
 })
 };
 
-$('#add-note').click(function (e) {
+$(document).on('click','#add-note', function (e) {
         console.log("add")
         e.preventDefault();
         $.ajax({
           type: "POST",
           url: "{% url 'admin_ft:create_notes' %}",
           data: {
-            nama: $("#id_usernama").val(),
+            nama: $("#id_username").val(),
             note: $("#id_noted").val(),
             csrfmiddlewaretoken: "{{ csrf_token }}",
           },
           dataType: "json",
           success: function (result, status) {
-            $("#id_usernama").val(''),
+            $("#id_username").val('')
             $("#id_noted").val('')
+            loadData();
           },
         });
   });

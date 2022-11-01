@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from admin_ft.models import admin_ft_entry
 from campaign.models import Campaign
 from donate.models import Donasi
+from participate.models import Participants
 from django.core import serializers
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -20,45 +21,94 @@ import matplotlib.pyplot as plt
 import io
 import urllib, base64
 from admin_ft.forms import AdminForm
+import seaborn as sns
 
 def get_data():
-    df_campaign = pd.DataFrame(Campaign.objects.values())
+    df_participant = pd.DataFrame(Participants.objects.values())
     df_donasi = pd.DataFrame(Donasi.objects.values())
     df_admin = pd.DataFrame(admin_ft_entry.objects.values())
-    df_merge = df_admin.merge(df_donasi, how='left',on='user_id').merge(df_campaign, how='left',on='user_id')\
-            [['username','nominal','jumlahPohon','namaPohon','pesan','title','description']]
+
+    df_par = pd.merge(df_admin, df_participant, on='user_id',how='left')\
+                [['user_id','username','noted','campaign_id']]
+    df_don = pd.merge(df_admin, df_donasi, on='user_id', how='left')
+    df_par.rename(columns={'campaign_id':'title'}, inplace=True)
+    df_don.rename(columns={'campaign_id':'title'}, inplace=True)
     # df_merge[df_merge.select_dtypes('object').columns] = df_merge[df_merge.select_dtypes('object').columns].fillna("NULL")
-    df_merge[['nominal','jumlahPohon']] = df_merge[['nominal','jumlahPohon']].fillna(0).astype(int)
+    df_don[['nominal','jumlahPohon']] = df_don[['nominal','jumlahPohon']].fillna(0).astype(int)
     
-    jumlah_campaign = df_merge.groupby("username")['title'].apply(lambda x: x.notnull().sum()).reset_index()
-    jumlah_donasi = df_merge.groupby("username")['pesan'].apply(lambda x: x.notnull().sum()).reset_index()
-    df_merge = df_merge.groupby('username').agg({'nominal':'sum','jumlahPohon':'sum'}).reset_index()
-    df_merge['noted'] = df_admin['noted']
-    df_merge['kampanye'] = jumlah_campaign['title']
-    df_merge['donasi'] = jumlah_donasi['pesan']
-    df_merge = df_merge.reset_index()
-    df_merge['index']=df_merge['index']+1
-    return df_merge
+    jumlah_campaign = df_don.groupby("username")['title'].apply(lambda x: x.notnull().sum()).reset_index()
+    jumlah_donasi = df_don.groupby("username")['pesan'].apply(lambda x: x.notnull().sum()).reset_index()
+    df_don = df_don.groupby(['username','user_id']).agg({'nominal':'sum','jumlahPohon':'sum'}).reset_index()
+    df_don['kampanye'] = jumlah_campaign['title']
+    df_don['donasi'] = jumlah_donasi['pesan']
+    df_don= pd.merge(df_don, df_admin[['user_id','noted']], on='user_id')
+    df_don = df_don.sort_values(by='nominal',ascending=False).reset_index()
+    df_don['index']=list(range(1,df_don.shape[0]+1))
 
-@login_required(login_url='/admin_ft/login/')
-def admin_ft(request):
-    plt.figure(facecolor='#dbeafe')
-    ax = plt.axes()
-    ax.set_facecolor("#dbeafe")
-    df = get_data()
-    plt.bar(df["username"],df['nominal'])
+    df_par = df_par.groupby("username")['title'].apply(lambda x: x.notnull().sum()).reset_index()
+    df_par.columns =['username','kampanye']
+    df_par = df_par.sort_values(by='kampanye',ascending=False).reset_index()
+    df_par['index']=list(range(1,df_par.shape[0]+1))
+    # print(df_merge)
+    return df_don, df_par
 
+def encode_png():
     fig1 = plt.gcf()
     buf=io.BytesIO()
     fig1.savefig(buf, format='png')
     buf.seek(0)
     string = base64.b64encode(buf.read())
     uri = urllib.parse.quote(string)
-
     plt.clf()
+    return uri
+
+@login_required(login_url='/admin_ft/login/')
+def admin_ft(request):
+    plt.figure(facecolor='#dbeafe')
+    ax = plt.axes()
+    ax.set_facecolor("#dbeafe")
+
+    df_don, df_par = get_data()
+    sns.set(style="whitegrid", color_codes=True)
+    plt.title('Top 5 Donations')
+    pal = sns.color_palette("Greens_d", df_don.shape[0])
+    sns.barplot(x="username",y='nominal', data=df_don[:5],palette=pal[::-1])
+    uri = encode_png()
+
+    plt.figure(facecolor='#dbeafe')
+    ax = plt.axes()
+    ax.set_facecolor("#dbeafe")
+    sns.set(style="whitegrid", color_codes=True)
+    plt.title('Top 5 Campaigns')
+    sns.barplot(x='username',y='kampanye',data=df_par[:5], palette='rocket', ci=None)
+    uri2 = encode_png()
+
+    plt.figure(facecolor='#dbeafe')
+    ax = plt.axes()
+    ax.set_facecolor("#dbeafe")
+    sns.set(style="whitegrid", color_codes=True)
+    plt.title('Donation Distribution')
+    plt.xlim(0,100000)
+    sns.distplot(df_don.nominal)
+    uri3 = encode_png()
+
+    plt.figure(facecolor='#dbeafe')
+    ax = plt.axes()
+    ax.set_facecolor("#dbeafe")
+    sns.set(style="whitegrid", color_codes=True)
+    plt.title('Campaign Distribution')
+    plt.xlim(0,6)
+    sns.distplot(df_par.kampanye)
+    uri4 = encode_png()
 
     form = AdminForm()
-    return render(request, 'admin_ft.html', {'data':uri,'table':df.to_dict('records'),'form':form})
+    return render(request, 'admin_ft.html', 
+                            {'top_5_donation':uri,
+                            'top_5_campaign':uri2,
+                            'dist_donation':uri3,
+                            'dist_kampanye':uri4,
+                            'form':form,
+                            'table_top_5':df_don[:5].to_dict('records')})
 
 def register(request):
     form = UserCreationForm()
@@ -103,20 +153,29 @@ def logout_user(request):
 
 @login_required(login_url='/admin_ft/login/')
 def add_ajax(request):
-    df = get_data()
-    print(df.to_json())
-    return HttpResponse(df.to_json(), content_type="application/json")
+    df_don,df_par = get_data()
+    print(df_don.to_json())
+    return HttpResponse(df_don.to_json(), content_type="application/json")
+
+@login_required(login_url='/admin_ft/login/')
+def add_ajax_5(request):
+    df_don,df_par = get_data()
+    return HttpResponse(df_don[:5].to_json(), content_type="application/json")
 
 @csrf_exempt
 def create_notes(request):
+    form = AdminForm(request.POST)
     if request.method == 'POST':
-        form = AdminForm(request.POST)
-        if form.is_valid():
-            admin_obj = admin_ft_entry.objects.filter(username=form.cleaned_data['username'])
-            admin_obj.noted = form.cleaned_data['noted']
-            admin_obj.save()
-            messages.success(request, 'Notes berhasil dibuat')
-            # return HTTPResponse(serializers.serialize('json',[admin_obj]),
-            #         content_type='application/json',)
-        else:
-            print('error')
+        # print(form)
+        # if form.is_valid():
+        print(dir(form))
+        print(request.POST.get('nama'))
+        user = User.objects.get(username = request.POST.get('nama'))
+        admin_obj = admin_ft_entry.objects.get(user=user)
+        admin_obj.noted = request.POST.get('note')
+        admin_obj.save()
+        # print(pd.DataFrame(admin_ft_entry.objects.values()))
+        messages.success(request, 'Notes berhasil dibuat')
+        return JsonResponse({"instance":'proyek dibuat'}, status=200)
+        # else:
+        #     print('error')
