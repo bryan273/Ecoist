@@ -6,7 +6,4 @@ urlpatterns = [
     path('', show_homepage, name='show_homepage'),
     path('submit-question/', submitquestion, name='submitquestion'),
     path('get-campaign-sum/', getcampaignsum, name='getcampaignsum'),
-    path('donate/', include('donate.urls')),
-    path('participate/', include('participate.urls')),
-    path('campaign/', include('campaign.urls')),
 ]

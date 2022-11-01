@@ -7,9 +7,9 @@
 {% block content %}
     <!-- nav bar -->
     <style>
-        * {
+        /* * {
         border: 1px solid red;
-      }  
+      }   */
     </style>
     <div class="bg-gradient-to-b from-sky-400 to-green-200"> 
       <div class="content-center ">
@@ -111,16 +111,17 @@
 
       <!-- donations sum real time and persuasion words-->
       <container class="align-center mb-10">
-        
         <div class="flex justify-center mb-10 mt-10 ">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-x-px w-3/4 place-items-center justify-center rounded-md bg-gray-100 shadow-2xl" > 
 
-              <div class=" w-4/5 md:w-3/5 text-align:center">
-                <p id="donate-sum" class="text-[120px] textfont-bold justify-center text-center">
-                  77
+              <div class=" w-4/5 md:w-3/5 text-align:center mt-10">
+                <div class="flex justify-center">
+                  <button id="get-count-btn" onclick="" class="align-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md ">Get Count</button>
+                </div>
+                <p id="campaign-count" class="text-[120px] textfont-bold justify-center text-center">
                 </p>
-                <p class="text-gray-700  text-center mb-10 ">
-                  campaigns has already been started in Ecoist
+                <p id="count-detail" class="text-gray-700  text-center mb-10 ">
+                  Click the button above to get know how many campaigns already made
                 </p>
               </div>
 
@@ -151,8 +152,11 @@
 
       <!-- leave a question form-->
           <div id="post-form" class= " flex justify-center mt-24 mb-10">
-            <div class="w-4/5 grid grid-cols-1 text-center  rounded-lg bg-sky-200 md:w-2/5 p-5 ">
-              <form id="question-form" method="post">
+            <div class="w-4/5 grid grid-cols-1 text-center shadow-md  rounded-lg bg-sky-200 md:w-2/5 p-5 ">
+              <p>
+                Have something to ask about Ecoist? Drop your question below?
+              </p>
+              <form id="question-form" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 {% csrf_token %}
                 <fieldset>
                   <div>            
@@ -165,6 +169,15 @@
             </div>
           </div>
       
+        <footer class="p-4 bg-white shadow md:px-6 md:py-8 dark:bg-gray-900">
+          <div class="sm:flex sm:items-center sm:justify-between">
+            
+          </div>
+          <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+          <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 Ecoist™. All Rights (haven't been) Reserved.
+          </span>
+        </footer>
+
       </div>
 
       <script>
@@ -183,15 +196,34 @@
                 },
             }) 
           })
-          let sum = $('#donate-sum');
-          $.ajax({    
-            type: 'GET',
-            url: "get-campaign-sum/",
-            data: {},
-            success: function(e) {
-              sum.html()
-            }});
         })
+
+        const getButton =  document.getElementById('get-count-btn');
+        
+        function gege(){
+          $.get(
+            '/get-campaign-sum/',
+            (res) => {
+              console.log(res)
+              $('#campaign-count').empty();
+              $('#count-detail').empty();
+              $('#campaign-count').append(
+                `
+                ${res}
+                `
+              )
+              $('#count-detail').append(
+                `
+                campaigns has already been started in Ecoist
+
+                `
+              )
+            }
+            
+          )
+        }
+
+        $(`#get-count-btn`).attr('onclick', `gege()`);
          
       </script>
 
