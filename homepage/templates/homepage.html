@@ -162,8 +162,12 @@
                   <div>            
                     {{form}}
                   </div>
-                  <button id="submit-btn" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
-                  <h3></h3>
+                  {% if request.user.is_autheticated %}
+                    <button id="submit-btn" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
+                  {% else %}
+                    <p id class="text-gray-500  text-center mb-10 "> login to submit your question </p>
+                    <a href=" ../login " class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> Submit </a>
+                  {% endif %}
                 </fieldset>
               </form>
             </div>
