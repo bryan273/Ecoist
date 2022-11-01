@@ -5,10 +5,12 @@ from statistics import mode
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from campaign.models import Campaign
 
 
 class Participants(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=None)
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, to_field='title', default='-', null=True)
     nama_pendaftar = models.CharField(max_length=50, default='')
     email_pendaftar = models.CharField(max_length=50, default='')
     phone_number = models.CharField(max_length=15, default='0')
