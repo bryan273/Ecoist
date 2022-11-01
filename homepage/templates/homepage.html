@@ -7,50 +7,52 @@
 {% block content %}
     <!-- nav bar -->
     <style>
-        /* * {
+         * {
         border: 1px solid red;
-      }   */
+      }   
     </style>
     <div class="bg-gradient-to-b from-sky-400 to-green-200"> 
-      <nav class="bg-gray-800">
-        <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-          <div class="relative flex h-16 items-center justify-between">
-            <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-              <div class="flex flex-shrink-0 items-center">
-                <h1 class="font-bold text-blue-500 text-2xl mt-0.5 mb-1 ml-0.5">E C O I S T</h1>
-              </div>
-              <div class="hidden sm:ml-6 sm:block">
-                <div class="flex space-x-4 ">
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Campaign List</a>
-                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Create Campaign</a> 
+      <div class="content-center ">
+        <nav class="bg-gray-800">
+          <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+              <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div class="flex flex-shrink-0 items-center">
+                  <h1 class="font-bold text-blue-500 text-2xl mt-0.5 mb-1 ml-0.5">E C O I S T</h1>
+                </div>
+                <div class="hidden sm:ml-6 sm:block">
+                  <div class="flex space-x-4 ">
+                      <a href="../" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                      <a href="../campaign/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Campaign List</a>
+                      <a href="../campaign/createcampaign/" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Create Campaign</a> 
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                <span class="sr-only">View notifications</span>
+              <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <span class="sr-only">View notifications</span>
+                  
+                </button>
+      
+                <div class="relative ml-3">
+                  {% if not user.is_authenticated %}
+                  <div>
+                      <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/login/'">Login</button>
+                  </div>
+                  {% else %} 
                 
-              </button>
-    
-              <div class="relative ml-3">
-                {% if not user.is_authenticated %}
-                <div>
-                    <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='../login/'">Login</button>
+                  <div class="flex space-x-4">
+                    <p class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{user.get_username}}</p>
+                    <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/logout/'">Logout</button>
+                  </div>
+                  {% endif %}
                 </div>
-                {% else %} 
-              
-                <div class="flex space-x-4">
-                  <p class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{user.get_username}}</p>
-                  <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='../logout/'">Logout</button>
-                </div>
-                {% endif %}
+      
               </div>
-    
             </div>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
 
       <!-- picture with quotes -->
       
@@ -62,16 +64,17 @@
       <container class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-20 px-10 py-10 mb-10 flex justify-center">
         
         <div class=" bg-white rounded-lg  shadow-md dark:bg-gray-800 dark:border-gray-700 transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl overflow-hidden">
-          <div class="h-20">
+          <a href="#">
               <img class="rounded-t-lg" src="https://images.pexels.com/photos/1072824/pexels-photo-1072824.jpeg?auto=compress&cs=tinysrgb&w=600" alt="">
-          </div>
-          <br>
+          </a>
           <div class="p-5">
               <a href="#">
                   <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Make donations</h5>
               </a>
-              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Contribute to various campaigns by donating and help campaigns to reach their goals</p>
-              <a href=" ../donate " class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">
+              <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                Contribute to various campaigns by donating and help campaigns to reach their goals
+              </p>
+              <a href=" ../campaign/" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ">
                   Contribute
               </a>
           </div>
@@ -90,7 +93,7 @@
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 Find campaigns that match your location and situation, then work together with fellow volunteers to create meaningful changes
               </p>
-              <a href=" ../participate/ " class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 align-bottom">
+              <a href=" ../campaign/" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 align-bottom">
                   Contribute
               </a>
           </div>
@@ -109,7 +112,7 @@
               <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
                 Create your own campaign and get fellow environmentalists to work with you in achieving that goals
               </p>
-              <a href=" ../campaign " class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <a href=" ../campaign/createcampaign/ " class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   Contribute
               </a>
           </div>
@@ -160,25 +163,21 @@
       </container>
 
       <!-- leave a question form-->
-          <div id="post-form" class= " flex justify-center mt-24 mb-10 min-w-[50%]">
-            <div class="w-4/5 grid grid-cols-1 text-center shadow-md  rounded-lg bg-sky-200 md:w-3/5 p-5 lg:w-2/5 ">
-              <p class=>
-                Have something to ask about Ecoist? 
+          <div id="post-form" class= " flex justify-center mt-24 mb-10">
+            <div class="w-4/5 grid grid-cols-1 text-center shadow-md  rounded-lg bg-sky-200 md:w-2/5 p-5 ">
+              <p>
+                Have something to ask about Ecoist? Drop your question below?
               </p>
-              <p class="mb-5">
-                Drop your question below!
-              </p>
-              <form id="question-form" method="post" class="bg-white shadow-md rounded mx-8 pt-6 pb-8 mb-4">
+              <form id="question-form" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 {% csrf_token %}
                 <fieldset>
-                  <div class=" pb-2">            
+                  <div>            
                     {{form}}
                   </div>
                   {% if request.user.is_autheticated %}
                     <button id="submit-btn" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
                   {% else %}
-                    <p id class="text-gray-500  text-center mb-10 "> login to submit your question </p>
-                    <a href=" ../login " class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"> Submit </a>
+                    <p id class="text-gray-500  text-center mb-10 "> login first to submit your question </p>
                   {% endif %}
                 </fieldset>
               </form>
@@ -187,10 +186,12 @@
       
         <footer class="p-4 bg-white shadow md:px-6 md:py-8 dark:bg-gray-900">
           <div class="sm:flex sm:items-center sm:justify-between">
-            
+            {% if request.user.is_autheticated %}            
+              <span class="block text-sm text-gray-600 sm:text-center dark:text-gray-500" >Last login: {{ last_login }}</span>
+            {% endif %}
           </div>
           <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-          <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 Ecoist™. All Rights (haven't been) Reserved.
+          <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2022 Ecoist™. All Rights (not) Reserved.
           </span>
         </footer>
 
@@ -207,7 +208,7 @@
                 data: form.serialize(),
                 success: (response) => {
                   form.val();
-                  console.log('test');
+                  console.log(response);
                   $('textarea[name=question]').val('');
                 },
             }) 
