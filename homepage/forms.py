@@ -10,5 +10,6 @@ class QuestionForm(ModelForm):
         super(QuestionForm, self).__init__(*args, **kwargs)
         self.fields['question'].widget.attrs.update({
             'placeholder': 'Enter your question here',
-            'cols' : '35',
+            'cols' : '20',
+            'rows' : '5',
         })
