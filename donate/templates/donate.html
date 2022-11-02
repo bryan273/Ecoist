@@ -7,35 +7,48 @@
 {% endblock meta %}
 
 {% block content %}
+<nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex flex-shrink-0 items-center">
+            <h1 class="font-bold text-blue-500 text-2xl mt-0.5 mb-1 ml-0.5">E C O I S T</h1>
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4 ">
+                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Campaign List</a>
+                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Create Campaign</a> 
+            </div>
+          </div>
+        </div>
+        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+            <span class="sr-only">View notifications</span>
+            
+          </button>
+
+          <div class="relative ml-3">
+            {% if not user.is_authenticated %}
+            <div>
+                <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/login/'">Login</button>
+            </div>
+            {% else %} 
+          
+            <div class="flex space-x-4">
+              <p class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">{{user.get_username}}</p>
+              <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/logout/'">Logout</button>
+            </div>
+            {% endif %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </nav>
 <div class="bg-blue-100 h-100vh">
-    <main class="container w-100 m-auto text-center">
+    <main class="container w-auto m-auto text-center">
         <div class="wrapper-donate content-page">
-            <nav class="bg-gray-800">
-                <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
-                    <div class="relative flex h-16 items-center justify-between">
-                        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                            <div class="flex flex-shrink-0 items-center">
-                                <h1 class="font-bold text-blue-500 text-2xl mt-0.5 mb-1 ml-0.5">E C O I S T</h1>
-                            </div>
-                            <div class="hidden sm:ml-6 sm:block">
-                                <div class="flex space-x-4 ">
-                                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
-                                    <a href="{% url 'campaign:show_campaign' %}" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Campaign List</a>
-                                    <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Create Campaign</a> 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                            <button type="button" class="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                                <span class="sr-only">View notifications</span>
-                            </button>
-                        <div class="relative ml-3">
-                        <div>
-                            <button class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" onclick="location.href='/ecoist/login/'">Login</button>
-                        </div>
-                    </div>
-                </div>
-            </nav>
             
             <form id="donateForm" method="POST" action="">
                 {% csrf_token %}
@@ -62,7 +75,7 @@
                     <br>
                     {{ form.pesan }}
                 </div>
-                <input id="showModal" class="showModal inline-block px-7 py-3 bg-blue-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-400 active:shadow-lg transition duration-150 ease-in-out mb-10" type="submit" value="Donate">     
+                <button id="showModal" class="showModal inline-block px-7 py-3 bg-blue-500 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-400 hover:shadow-lg focus:bg-blue-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-400 active:shadow-lg transition duration-150 ease-in-out mb-10" type="submit">Donate</button>    
             </form>
         </div>
     </main>
@@ -110,7 +123,6 @@
             const pesan = document.forms["donateForm"]["pesan"].value
             const data = {nominal:nominal,namaPohon:namaPohon,jumlahPohon:jumlahPohon,pesan:pesan,csrfmiddlewaretoken:'{{ csrf_token }}'}
             $.ajax({url:"/donate/donate_ajax/",data:data,method:"POST"}).done(function (resp) {
-                alert(data.nominal)
                 $(".wrapper-donate").append(`
                 <div tabindex="-1" class="modal overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-screen">
                     <div class="relative inline-block px-7 py-3 w-full max-w-lg h-screen md:h-auto">

@@ -134,10 +134,10 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user) # melakukan login terlebih dahulu
-            if username=='bryan273':
+            if username=='admin_ecoist':
                 response = HttpResponseRedirect(reverse("admin_ft:admin_ft")) # membuat response
             else:
-                response = HttpResponseRedirect(reverse("#")) # membuat response
+                response = HttpResponseRedirect(reverse("homepage:show_homepage")) # membuat response
             response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
             return response
         else:
