@@ -1,15 +1,16 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block meta %}
 
 <head>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.36.1/dist/full.css" rel="stylesheet" type="text/css" />
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="{% static '/campaign.js' %}"></script>
+
+
 {% endblock meta %}
-
 {% block content %}
-
 {% include 'navbar.html' %}
 
 <main>
@@ -50,11 +51,7 @@
     <div class="flex flex-wrap gap-14 items-center justify-center content-center pt-20">
 
         {% if not user.is_authenticated %}
-        <!-- <label for="my-modal" class="btn btn-primary">
-            <button class="btn btn-primary" onclick="location.href='/login/'">Login </button>
-        </label> -->
             
-        
         {% else %} 
       
         <!-- The button to open modal -->
@@ -83,10 +80,22 @@
                         <div class="badge badge-outline">
                             <a href="{% url 'participate:show-page' %}">Join</a>
                         </div>
+                            {% if user.is_superuser %}
+                            <div class="badge badge-outline">
+                                <a>
+                                    <button type="button" id="delete-button-${data[i].pk}">
+                                    Delete
+                                    </button>
+                                </a>
+                            </div>
+                            {% else %} 
+  
+                            {% endif %}
                         </div>
                     </div>
                     </div>
             `);
+            $(`#delete-button-${data[i].pk}`).attr('onclick', `deleteCard(${data[i].pk})`)
             }
         });
     }
@@ -108,6 +117,15 @@
         }
     }
 
+    function deleteCard(id) {
+        $.post({
+            url:`delete_campaign/${id}/`,
+            type: 'post',
+            data: {},
+            success: refresh,
+        });
+    }
+
     function closeModal() {
         $('#modal-title').val("")
         $('#modal-description').val("")
@@ -119,7 +137,8 @@
         closeModal()
         return false;
     })
-    refresh();
+
+        refresh();
 
 </script>
 
