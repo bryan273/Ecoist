@@ -31,35 +31,13 @@ def create_campaign_with_ajax(request):
             description=description,
         )
     return HttpResponse("Success")
-        # return JsonResponse(
-        #     {   
-        #         "pk": campaign.id,
-        #         "fields": {
-        #             "title": campaign.title,
-        #             "description": campaign.description,
-        #         },
-        #     },
-        # )
 
-# def create_campaign(request):
-#     form = TaskForm()
-#     context = {'form': form}
-#     if request.method == 'POST':
-#         form = TaskForm(request.POST)
-#         if form.is_valid():
-#             form_listener = form.save(commit=False)
-#             form_listener.save()
-#             return HttpResponseRedirect(reverse('campaign:show_campaign'))
-#         else:
-#             messages.info(request, 'Terjadi kesalahan saat menyimpan data!')
-#     return render(request, 'add_campaign.html', context)
-
-
-
+@login_required(login_url='/ecoist/login/')
+@csrf_exempt
 def delete_campaign(request, key):
     campaign = Campaign.objects.get(pk = key)
     campaign.delete()
-    return redirect('campaign:show_campaign')
+    return HttpResponse("Success")
 
 def show_json(request):
     data = Campaign.objects.all()
