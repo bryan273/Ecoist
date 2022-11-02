@@ -167,32 +167,22 @@
       </div>
     </container>
 
-    <!-- leave a question form-->
-        <div id="post-form" class= " flex justify-center mt-24 mb-10 ">
-          <div class="w-4/5 grid grid-cols-1 text-center shadow-md  rounded-lg bg-gradient-to-b from-sky-200 to-sky-300 md:w-2/5 p-5 ">
-            <p class="text-gray-700" >
-              Have something to ask about Ecoist? 
-            </p>
-            <p class="text-gray-700 mb-5">
-              Drop your question below!
-            </p>
-            <form id="question-form" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-6 mb-2">
-              {% csrf_token %}
-              <fieldset>
-                <div class="grid grid-cols-1">            
-                  {{form}}
-                </div>
-                {% if  user.is_authenticated %}
-                  <button id="submit-btn" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full mt-5">Submit</button>
-                {% else %}
-                  <p id class="text-gray-500  text-center mb-5 "> login first to submit your question </p>
-                {% endif %}
-              </fieldset>
-            </form>
-            {% if user.is_authenticated %}
-              <span class="block text-sm text-gray-600 sm:text-center dark:text-gray-500" >Last question submission:</span>
-              <span id="last-submit-question" class="block text-sm text-gray-600 sm:text-center dark:text-gray-500" >{{ last_question }}</span>
-            {% endif %}
+      <!-- leave a question form-->
+          <div id="post-form" class= " flex justify-center mt-24 mb-10">
+            <div class="w-4/5 grid grid-cols-1 text-center shadow-md  rounded-lg bg-sky-200 md:w-2/5 p-5 ">
+              <p>
+                Have something to ask about Ecoist? Drop your question below?
+              </p>
+              <form id="question-form" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                {% csrf_token %}
+                <fieldset>
+                  <div>            
+                    {{form}}
+                  </div>
+                  <button id="submit-btn" type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
+                  <h3></h3>
+                </fieldset>
+              </form>
             </div>
         </div>
     
