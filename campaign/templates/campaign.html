@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block meta %}
+
 <head>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@2.36.1/dist/full.css" rel="stylesheet" type="text/css" />
 </head>
@@ -11,51 +12,61 @@
 
 {% include 'navbar.html' %}
 
-<!-- Main modal -->
-    
-<input type="checkbox" id="my-modal" class="modal-toggle cursor-pointer" />
-<div class="modal">
-    <div class="modal-box">
-        <form action="" method="POST" id="create-campaign">
-            {% csrf_token %}
-            <div class="form-control w-full max-w-xs">
-                <label class="label">
-                  <span class="label-text">Title</span>
-                </label>
-                <input type="text" placeholder="" id="modal-title" class="input input-ghost input-primary w-full max-w-xs" />
-                <label class="label">
-                    <span class="label-text">Description</span>
-                  </label>
-                  <input type="text" placeholder="" id="modal-description" class="input input-bordered input-primary w-full max-w-xs" />
-              </div>
-        </form>
-        <div class="modal-action">
-            <label for="my-modal" class="btn">Cancel</label>
+<main>
+    <!-- Main modal -->
 
-            <button class="btn" type="submit" value="Submit" id="button">
-                <label for="my-modal">
-                    Submit
-                </label>
-            </button>
-
-            
+    <input type="checkbox" id="my-modal" class="modal-toggle cursor-pointer" />
+    <div class="modal">
+        <div class="modal-box">
+            <form method="POST" id="create-campaign" action="">
+                {% csrf_token %}
+                <div class="form-control w-full max-w-xs">
+                    <label class="label">
+                        <span class="label-text">Title</span>
+                    </label>
+                    <input type="text" name="title" placeholder="Title" id="modal-title" required class="bg-gray-50 border border-gray-300 text-gray-900 
+                    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
+                    dark:placeholder-gray-400 dark:text-black-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <label class="label">
+                        <span class="label-text">Description</span>
+                    </label>
+                    <input type="text" name="description" placeholder="Description" id="modal-description" required
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
+                  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+                <div class="modal-action">
+                    <label for="my-modal" id="button-close" class="btn btn-secondary">Cancel</label>
+                    <label for="my-modal">
+                        <button type="submit" value="Submit" id="button-submit" class="btn btn-primary">
+                            Submit
+                        </button>
+                    </label>
+                </div>
+            </form>
         </div>
     </div>
-</div>
 
-<div>
-    <div class="flex flex-wrap gap-14 content-center items-center justify-center pt-14" id="card-container">
+    <div>
+        <div class="flex flex-wrap gap-14 content-center items-center justify-center pt-14" id="card-container">
+        </div>
     </div>
-</div>
+
+    <div class="flex flex-wrap gap-14 items-center justify-center content-center pt-20">
+
+        <!-- The button to open modal -->
+        <label for="my-modal" class="btn btn-primary">Create Campaign</label>
+
+    </div>
+</main>
 
 
 <script>
-    
-function refresh() {
-    $.get("./json/", function(data) {
-        $('#card-container').empty();
-        for (i = 0; i < data.length; i++) {
-            $('#card-container').append(`
+    function refresh() {
+        $.get("./json/", function (data) {
+            console.log(data);
+            $('#card-container').empty();
+            for (i = 0; i < data.length; i++) {
+                $('#card-container').append(`
                     <div class="card w-96 bg-base-100 shadow-xl image-full">
                     <figure><img src="https://placeimg.com/400/225/nature" alt="Shoes" /></figure>
                     <div class="card-body">
@@ -72,54 +83,41 @@ function refresh() {
                     </div>
                     </div>
             `);
+            }
+        });
+    }
+
+    function addTask() {
+        var title = $('#modal-title').val();
+        var description = $('#modal-description').val();
+
+        if (title != "" && description != "") {
+            $.post({
+                url: 'createajax/',
+                type: 'post',
+                data: {
+                    'title': title,
+                    'description': description,
+                },
+                success: refresh
+            });
         }
-    });
-}
+    }
 
-$("#button").click(function(){
-    $.post( "/campaign/create-campaign-with-ajax/", 
-    {
-    title : $("#modal-title").val(), 
-    description : $("#modal-description").val(), 
-    }, 
-    function(data, status) {
-        $('#card-container').append(`
-                    <div class="card w-96 bg-base-100 shadow-xl image-full">
-                    <figure><img src="https://placeimg.com/400/225/nature" alt="Shoes" /></figure>
-                    <div class="card-body">
-                        <h2 class="card-title">${data.fields.title}</h2>
-                        <p>${data.fields.description}</p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline">
-                            <a href="{% url 'donate:show_donate' %}">Donate</a>
-                        </div> 
-                        <div class="badge badge-outline">
-                            <a href="#={% url 'participate:show-page' %}">Join</a>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-            `);
-        $('#modal-title').val('')
-        $('#moda-description').val('')
+    function closeModal() {
+        $('#modal-title').val("")
+        $('#modal-description').val("")
+        $("#button-close").click()
+    }
+
+    $('#button-submit').click(() => {
+        addTask()
+        closeModal()
+        return false;
     })
-})
 
-
-$(document).ready(function(){
     refresh();
-});
+
 </script>
 
-<div class="flex flex-wrap gap-14 items-center justify-center content-center pt-20">
-    <a href="{% url 'campaign:create_campaign' %}" 
-        class="btn btn-primary" 
-        role="button">
-            Create New Task
-    </a>
-
-    <!-- The button to open modal -->
-    <label for="my-modal" class="btn btn-primary">Create Campaign</label>
-
-</div>
 {% endblock content %}
