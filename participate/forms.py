@@ -3,8 +3,8 @@ from django import forms
 
 NGO_CHOICES = (
 ('one', 'Delivering flyers'),
-('two', 'Delivering flyers'),
-('three', 'Delivering flyers'),)
+('two', 'Door-to-Door'),
+('three', 'Clerical work'),)
  
 # creating a form
 class ParticipantsForm(forms.Form):
