@@ -49,7 +49,6 @@ $(document).ready(function(){
         const pesan = document.forms["donateForm"]["pesan"].value
         const data = {nominal:nominal,namaPohon:namaPohon,jumlahPohon:jumlahPohon,pesan:pesan,csrfmiddlewaretoken:'{{ csrf_token }}'}
         $.ajax({url:"/donate/donate_ajax/",data:data,method:"POST"}).done(function (resp) {
-            alert(data.nominal)
             $(".wrapper-donate").append(`
             <div tabindex="-1" class="modal overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-screen">
                 <div class="relative inline-block px-7 py-3 w-full max-w-lg h-screen md:h-auto">
