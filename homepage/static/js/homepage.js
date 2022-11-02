@@ -10,7 +10,7 @@ $(document).ready(() => {
             form.val();
             console.log(response);
             $('textarea[name=question]').val('');
-           
+            confirm("Question submitted");
           },
       })
       add_last_question(); 
