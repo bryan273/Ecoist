@@ -2,7 +2,6 @@ from django.shortcuts import render
 
 # Create your views here.
 
-import datetime
 from pydoc import describe
 from django.http import HttpResponseRedirect
 from django.urls import reverse
@@ -50,7 +49,7 @@ def join_campaign(request):
             
     return HttpResponseNotFound()
 
-# @login_required(login_url='/ecoist/login/')
+@login_required(login_url='/ecoist/login/')
 def show_json(request):
     data = Participants.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
