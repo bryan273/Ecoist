@@ -63,9 +63,9 @@
             `)
         })
     })
-    // $(".close-modal").click(function(){
-    //     $(".modal").classList.add("hidden")
-    // })
+    $(".close-modal").click(function(){
+        $(".modal").classList.add("hidden")
+    })
     // const modal = document.querySelector('.modal');
     // const acc = document.querySelector('.acc-button');
     // const close = document.querySelector('.close-modal');
