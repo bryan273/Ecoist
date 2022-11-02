@@ -5,3 +5,5 @@ class TaskForm(ModelForm):
     class Meta:
         model = Campaign
         fields = ['title', 'description']
+
+        
