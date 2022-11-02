@@ -44,7 +44,7 @@ def donate_ajax(request):
             },
             'pk':todo.pk
         }
-        return JsonResponse(hasil)
+        return JsonResponse({"instance":hasil}, status=200)
 
 # @login_required(login_url='/ecoist/login/')
 def show_json(request):
