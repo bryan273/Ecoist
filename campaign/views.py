@@ -8,12 +8,14 @@ from django.shortcuts import redirect
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from campaign.forms import TaskForm
 
 def show_campaign(request):
     data = Campaign.objects.all()
     context ={
-        'username': "Hatta",
+
         'campaigns': data,
+        'form' : TaskForm,
     }
     return render(request, "campaign.html", context)
 
@@ -51,6 +53,8 @@ def create_campaign_with_ajax(request):
 #         else:
 #             messages.info(request, 'Terjadi kesalahan saat menyimpan data!')
 #     return render(request, 'add_campaign.html', context)
+
+
 
 def delete_campaign(request, key):
     campaign = Campaign.objects.get(pk = key)

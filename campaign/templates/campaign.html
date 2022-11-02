@@ -24,15 +24,11 @@
                     <label class="label">
                         <span class="label-text">Title</span>
                     </label>
-                    <input type="text" name="title" placeholder="Title" id="modal-title" required class="bg-gray-50 border border-gray-300 text-gray-900 
-                    text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 
-                    dark:placeholder-gray-400 dark:text-black-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {{ form.title }}
                     <label class="label">
                         <span class="label-text">Description</span>
                     </label>
-                    <input type="text" name="description" placeholder="Description" id="modal-description" required
-                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 
-                  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black-900 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {{ form.description }}
                 </div>
                 <div class="modal-action">
                     <label for="my-modal" id="button-close" class="btn btn-secondary">Cancel</label>
@@ -53,9 +49,17 @@
 
     <div class="flex flex-wrap gap-14 items-center justify-center content-center pt-20">
 
+        {% if not user.is_authenticated %}
+        <!-- <label for="my-modal" class="btn btn-primary">
+            <button class="btn btn-primary" onclick="location.href='/login/'">Login </button>
+        </label> -->
+            
+        
+        {% else %} 
+      
         <!-- The button to open modal -->
         <label for="my-modal" class="btn btn-primary">Create Campaign</label>
-
+        {% endif %}
     </div>
 </main>
 
