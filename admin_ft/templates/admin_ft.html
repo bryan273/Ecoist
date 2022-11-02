@@ -6,7 +6,7 @@
 
 {% block content %}  
 
-
+{% load static %}
 
 <div id="content" class="bg-blue-100 min-h-screen min-w-full">
   <nav class="bg-gray-800">
@@ -140,24 +140,15 @@
 
 
 
-	<!-- jQuery -->
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-	<!--Datatables -->
-	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-	<script>
-		$(document).ready(function() {
+<!--Datatables -->
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 
-			var table = $('#example').DataTable({
-					responsive: true
-				})
-				.columns.adjust()
-				.responsive.recalc();
-		});
-	</script>
+<script src="{% static '/admin_ft.js' %}"></script>
 
-</div>
 
 <script>
 const modal_overlay = document.querySelector('#modal_overlay');
