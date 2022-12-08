@@ -141,16 +141,19 @@ def login_user(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
+        isAdmin = False
         if user is not None:
             login(request, user) # melakukan login terlebih dahulu
             if username=='admin_ecoist':
                 response = HttpResponseRedirect(reverse("admin_ft:admin_ft")) # membuat response
+                isAdmin = True
             else:
                 response = HttpResponseRedirect(reverse("homepage:show_homepage")) # membuat response
             response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
             return JsonResponse({
                 "status": True,
-                "message": "Successfully Logged In!"
+                "message": "Successfully Logged In!",
+                'isAdmin': isAdmin,
                 # Insert any extra data if you want to pass data to Flutter
                 }, status=200)
         else:
