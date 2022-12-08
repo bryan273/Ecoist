@@ -110,6 +110,7 @@ def admin_ft(request):
                             'form':form,
                             'table_top_5':df_don[:5].to_dict('records')})
 
+@csrf_exempt
 def register(request):
     form = UserCreationForm()
 
@@ -122,11 +123,19 @@ def register(request):
             messages.success(request, 'Akun telah berhasil dibuat!')
             getUser = User.objects.get(username=uname)
             admin_ft_entry.objects.create(user=getUser, username=getUser.username)
-            return redirect('admin_ft:login')
-    
-    context = {'form':form}
-    return render(request, 'register.html', context)
+            # return redirect('admin_ft:login')
+            return JsonResponse({
+                "status": True,
+                "message": "Successfully Register!"
+                # Insert any extra data if you want to pass data to Flutter
+            }, status=200)
+        else :
+            return JsonResponse({
+            "status": False,
+            "message": "Failed to Register."
+            }, status=401)
 
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -139,9 +148,17 @@ def login_user(request):
             else:
                 response = HttpResponseRedirect(reverse("homepage:show_homepage")) # membuat response
             response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
-            return response
+            return JsonResponse({
+                "status": True,
+                "message": "Successfully Logged In!"
+                # Insert any extra data if you want to pass data to Flutter
+                }, status=200)
         else:
             messages.info(request, 'Username atau Password salah!')
+            return JsonResponse({
+                "status": False,
+                "message": "Failed to Login, check your email/password."
+            }, status=401)
     context = {}
     return render(request, 'login.html', context)
 
@@ -149,7 +166,11 @@ def logout_user(request):
     logout(request)
     response = HttpResponseRedirect(reverse('admin_ft:login'))
     response.delete_cookie('last_login')
-    return response
+    return JsonResponse({
+            "status": True,
+            "message": "Successfully Register!"
+            # Insert any extra data if you want to pass data to Flutter
+            }, status=200)
 
 @login_required(login_url='/admin_ft/login/')
 def add_ajax(request):
