@@ -113,27 +113,63 @@ def admin_ft(request):
 @csrf_exempt
 def register(request):
     form = UserCreationForm()
-
-    if request.method == "POST":
-        uname = request.POST.get('username')
-        form = UserCreationForm(request.POST)
-        print('test')
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Akun telah berhasil dibuat!')
-            getUser = User.objects.get(username=uname)
-            admin_ft_entry.objects.create(user=getUser, username=getUser.username)
-            # return redirect('admin_ft:login')
-            return JsonResponse({
-                "status": True,
-                "message": "Successfully Register!"
-                # Insert any extra data if you want to pass data to Flutter
-            }, status=200)
-        else :
-            return JsonResponse({
+    print(admin_ft_entry.objects.all().values)
+    uname = request.POST.get('username')
+    form = UserCreationForm(request.POST)
+    print('test')
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Akun telah berhasil dibuat!')
+        getUser = User.objects.get(username=uname)
+        admin_ft_entry.objects.create(user=getUser, username=getUser.username)
+        return redirect('admin_ft:login')
+    else :
+        print(uname)
+        return JsonResponse({
             "status": False,
             "message": "Failed to Register."
+        }, status=401)
+
+@csrf_exempt
+def flutter_register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password_1 = request.POST.get('password1')
+        password_2 = request.POST.get('password2')
+        is_user_already_exist = User.objects.filter(username=username).exists()
+        if (username == '') or (password_1 == '') or (password_2 ==''):
+            return JsonResponse({
+              "status": False,
+              "message": "Teks tidak boleh kosong"
             }, status=401)
+        elif (len(password_1)<=5):
+            return JsonResponse({
+              "status": False,
+              "message": "Panjang password harus lebih dari 5"
+            }, status=401)
+        elif (password_1!=password_2):
+            return JsonResponse({
+              "status": False,
+              "message": "Password harus sama"
+            }, status=401)
+        elif (not is_user_already_exist) and (password_1==password_2):
+            user = User.objects.create_user(username=username,password=password_1)
+            user.save()
+            admin_ft_entry.objects.create(user=user, username=username)
+            return JsonResponse({
+                "status": True,
+                "username": user.username,
+            }, status=200)
+        else:
+            return JsonResponse({
+              "status": False,
+              "message": "Username sudah terdaftar"
+            }, status=401)
+    else:
+        return JsonResponse({
+            "status": "Password error"
+        }, status=401)
+
 
 @csrf_exempt
 def login_user(request):
@@ -164,6 +200,30 @@ def login_user(request):
             }, status=401)
     context = {}
     return render(request, 'login.html', context)
+
+@csrf_exempt
+def flutter_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username, password)
+        user = authenticate(request, username=username, password=password)
+        isAdmin = False
+        if user is not None:
+            login(request, user) # melakukan login terlebih dahulu
+            if username=='admin_ecoist':
+                isAdmin = True
+            return JsonResponse({
+                "status": True,
+                "message": "Successfully Logged In!",
+                'isAdmin': isAdmin,
+                # Insert any extra data if you want to pass data to Flutter
+                }, status=200)
+        else:
+            return JsonResponse({
+                "status": False,
+                "message": "Failed to Login, check your email/password."
+            }, status=401)
 
 def logout_user(request):
     logout(request)
