@@ -7,4 +7,5 @@ urlpatterns = [
     path('', show_page, name='show-page'),
     path('json/', show_json, name='show_json'),
     path("add/", join_campaign, name="join_campaign"),
+    path("flutter_campaign/", join_campaign, name="flutter_campaign"),
 ]
