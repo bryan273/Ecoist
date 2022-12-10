@@ -53,3 +53,19 @@ def join_campaign(request):
 def show_json(request):
     data = Participants.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+
+# buat flutter
+def flutter_campaign(request):
+    if request.method == "POST":
+        nama = request.POST.get("nama_pendaftar")
+        email = request.POST.get("email_pendaftar")
+        phonenumber = request.POST.get("phone_number")
+        help = request.POST.get("what_can_you_help_with")
+        reason = request.POST.get("reason_to_participate")
+        add_participants = Participants(user=request.user,nama_pendaftar=nama, email_pendaftar=email, phone_number=phonenumber, what_can_you_help_with=help, reason_to_participate=reason)
+        add_participants.save()
+
+        return HttpResponse(b"CREATED", status=201)
+            
+    return HttpResponseNotFound()
