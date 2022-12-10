@@ -114,8 +114,8 @@ def admin_ft(request):
 def flutter_top_donations(request):
     df_don, _ = get_data()
     
-    print(df_don[['username','nominal']][:5].to_dict('records'))
-
+    # print(df_don[['username','nominal']][:5].to_dict('records'))
+    print(json.dumps({'don_top_5':df_don[['username','nominal']][:5].to_dict('records')}))
     return HttpResponse(json.dumps({'don_top_5':df_don[['username','nominal']][:5].to_dict('records')}), 
                         content_type='application/json')
 
@@ -123,7 +123,7 @@ def flutter_top_donations(request):
 def flutter_top_campaigns(request):
     _, df_par = get_data()
     
-    print(df_par[['username','kampanye']][:5].to_dict('records'))
+    # print(df_par[['username','kampanye']][:5].to_dict('records'))
 
     return HttpResponse(json.dumps({'par_top_5':df_par[['username','kampanye']][:5].to_dict('records')}), 
                         content_type='application/json')
@@ -132,7 +132,7 @@ def flutter_top_campaigns(request):
 def flutter_dist_donations(request):
     df_don, _ = get_data()
     
-    print(df_don[['nominal']].to_dict('records'))
+    # print(df_don[['nominal']].to_dict('records'))
 
     return HttpResponse(json.dumps({'don_dist':df_don[['nominal']].to_dict('records')}), 
                         content_type='application/json')
@@ -141,7 +141,7 @@ def flutter_dist_donations(request):
 def flutter_dist_campaigns(request):
     _, df_par = get_data()
     
-    print(df_par[['kampanye']].to_dict('records'))
+    # print(df_par[['kampanye']].to_dict('records'))
 
     return HttpResponse(json.dumps({'par_dist':df_par[['kampanye']].to_dict('records')}), 
                         content_type='application/json')
@@ -152,7 +152,7 @@ def flutter_top_user(request):
     print('masuk ke views django')
     df_don, _ = get_data()
     
-    print(df_don[:5].astype(str).to_dict('records'))
+    # print(df_don[:5].astype(str).to_dict('records'))
 
     return HttpResponse(json.dumps({'table_top_5':df_don[:5].to_dict('records')}), 
                         content_type='application/json')
@@ -288,6 +288,21 @@ def add_ajax(request):
     print(df_don.to_json())
     return HttpResponse(df_don.to_json(), content_type="application/json")
 
+@csrf_exempt
+def flutter_text(request):
+    df_don,_ = get_data()
+    username = df_don['username'].count()
+    nominal = df_don['nominal'].sum()
+    jumlahPohon = df_don['jumlahPohon'].sum()
+    kampanye = df_don['kampanye'].sum()
+    donasi = df_don['donasi'].sum()
+
+    context = {'username':str(username),'nominal':str(nominal),'jumlahPohon':str(jumlahPohon),
+                'kampanye':str(kampanye),'donasi':str(donasi)}
+    print(context)
+    print(json.dumps(context))
+    return HttpResponse(json.dumps(context) , content_type="application/json")
+
 @login_required(login_url='/admin_ft/login/')
 def add_ajax_5(request):
     df_don,df_par = get_data()
@@ -301,12 +316,30 @@ def create_notes(request):
         # if form.is_valid():
         print(dir(form))
         print(request.POST.get('nama'))
-        user = User.objects.get(username = request.POST.get('nama'))
-        admin_obj = admin_ft_entry.objects.get(user=user)
-        admin_obj.noted = request.POST.get('note')
-        admin_obj.save()
-        # print(pd.DataFrame(admin_ft_entry.objects.values()))
-        messages.success(request, 'Notes berhasil dibuat')
-        return JsonResponse({"instance":'proyek dibuat'}, status=200)
+        try:
+            user = User.objects.get(username = request.POST.get('nama'))
+            admin_obj = admin_ft_entry.objects.get(user=user)
+            admin_obj.noted = request.POST.get('note')
+            admin_obj.save()
+            # print(pd.DataFrame(admin_ft_entry.objects.values()))
+            messages.success(request, 'Notes berhasil dibuat')
+            return JsonResponse({"instance":'proyek dibuat'}, status=200)
+        except:
+            return None
         # else:
         #     print('error')
+
+@csrf_exempt
+def flutter_notes(request):
+    if request.method == 'POST':
+        print(request.POST.get('nama'), request.POST.get('note'))
+
+        try:
+            user = User.objects.get(username = request.POST.get('nama'))
+            admin_obj = admin_ft_entry.objects.get(user=user)
+            admin_obj.noted = request.POST.get('note')
+            admin_obj.save()
+
+            return JsonResponse({"instance":'proyek dibuat'}, status=200)
+        except:
+            return JsonResponse({"instance":'proyek gagal'}, status=401)
