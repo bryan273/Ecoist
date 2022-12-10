@@ -251,6 +251,7 @@ def login_user(request):
 @csrf_exempt
 def flutter_login(request):
     if request.method == 'POST':
+        print('masuk ke post login')
         username = request.POST.get('username')
         password = request.POST.get('password')
         print(username, password)
@@ -267,6 +268,7 @@ def flutter_login(request):
                 # Insert any extra data if you want to pass data to Flutter
                 }, status=200)
         else:
+            print('masuk ke else login')
             return JsonResponse({
                 "status": False,
                 "message": "Failed to Login, check your email/password."
