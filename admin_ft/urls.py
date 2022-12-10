@@ -10,6 +10,7 @@ urlpatterns = [
     path('flutter_login/', flutter_login, name='flutter_login'), 
     path('login/', login_user, name='login'), 
     path('logout/', logout_user, name='logout'),
+    path('flutter_logout/', flutter_logout, name='flutter_logout'),
     path('admin_ft/', admin_ft, name='admin_ft'),
     path('flutter_top_user/', flutter_top_user, name='flutter_top_user'),
     path('flutter_top_donations/', flutter_top_donations, name='flutter_top_donations'),

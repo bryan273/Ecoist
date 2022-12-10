@@ -157,25 +157,22 @@ def flutter_top_user(request):
     return HttpResponse(json.dumps({'table_top_5':df_don[:5].to_dict('records')}), 
                         content_type='application/json')
 
-@csrf_exempt
 def register(request):
     form = UserCreationForm()
-    print(admin_ft_entry.objects.all().values)
-    uname = request.POST.get('username')
-    form = UserCreationForm(request.POST)
-    print('test')
-    if form.is_valid():
-        form.save()
-        messages.success(request, 'Akun telah berhasil dibuat!')
-        getUser = User.objects.get(username=uname)
-        admin_ft_entry.objects.create(user=getUser, username=getUser.username)
-        return redirect('admin_ft:login')
-    else :
-        print(uname)
-        return JsonResponse({
-            "status": False,
-            "message": "Failed to Register."
-        }, status=401)
+
+    if request.method == "POST":
+        uname = request.POST.get('username')
+        form = UserCreationForm(request.POST)
+        print('test')
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Akun telah berhasil dibuat!')
+            getUser = User.objects.get(username=uname)
+            admin_ft_entry.objects.create(user=getUser, username=getUser.username)
+            return redirect('admin_ft:login')
+    
+    context = {'form':form}
+    return render(request, 'register.html', context)
 
 @csrf_exempt
 def flutter_register(request):
@@ -217,34 +214,21 @@ def flutter_register(request):
             "status": "Password error"
         }, status=401)
 
-
-@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        isAdmin = False
         if user is not None:
             login(request, user) # melakukan login terlebih dahulu
             if username=='admin_ecoist':
                 response = HttpResponseRedirect(reverse("admin_ft:admin_ft")) # membuat response
-                isAdmin = True
             else:
                 response = HttpResponseRedirect(reverse("homepage:show_homepage")) # membuat response
             response.set_cookie('last_login', str(datetime.datetime.now())) # membuat cookie last_login dan menambahkannya ke dalam response
-            return JsonResponse({
-                "status": True,
-                "message": "Successfully Logged In!",
-                'isAdmin': isAdmin,
-                # Insert any extra data if you want to pass data to Flutter
-                }, status=200)
+            return response
         else:
             messages.info(request, 'Username atau Password salah!')
-            return JsonResponse({
-                "status": False,
-                "message": "Failed to Login, check your email/password."
-            }, status=401)
     context = {}
     return render(request, 'login.html', context)
 
@@ -275,6 +259,13 @@ def flutter_login(request):
             }, status=401)
 
 def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('admin_ft:login'))
+    response.delete_cookie('last_login')
+    return response
+
+@csrf_exempt
+def flutter_logout(request):
     logout(request)
     response = HttpResponseRedirect(reverse('admin_ft:login'))
     response.delete_cookie('last_login')
