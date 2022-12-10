@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'participate',
     'campaign',
     'homepage',
+    "authentication",
+    "corsheaders",
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -68,7 +70,19 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
 ]
+CORS_ALLOW_ALL_ORIGINS=True
+
+CORS_ALLOW_CREDENTIALS=True
+
+CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SAMESITE = 'None'
+
+SESSION_COOKIE_SAMESITE = 'None'
 
 ROOT_URLCONF = 'project_django.urls'
 
