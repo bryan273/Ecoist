@@ -15,11 +15,12 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http import HttpResponse, HttpResponseNotFound
+from django. views.decorators.csrf import ensure_csrf_cookie
 
 # Create your views here.
-@login_required(login_url='/ecoist/login/')
+@login_required(login_url='/login/')
 def show_page(request):
     context ={}
     context['form']= ParticipantsForm()
@@ -34,7 +35,7 @@ def show_page(request):
 #     context['form']= ParticipantsForm()
 #     return render(request, "participate.html", context)
 
-@login_required(login_url='/ecoist/login/')
+@login_required(login_url='/login/')
 def join_campaign(request):
     if request.method == "POST":
         nama = request.POST.get("nama_pendaftar")
@@ -49,13 +50,12 @@ def join_campaign(request):
             
     return HttpResponseNotFound()
 
-@login_required(login_url='/ecoist/login/')
 def show_json(request):
     data = Participants.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-
 # buat flutter
+@ensure_csrf_cookie
 def flutter_campaign(request):
     if request.method == "POST":
         nama = request.POST.get("nama_pendaftar")
@@ -63,7 +63,7 @@ def flutter_campaign(request):
         phonenumber = request.POST.get("phone_number")
         help = request.POST.get("what_can_you_help_with")
         reason = request.POST.get("reason_to_participate")
-        add_participants = Participants(user=request.user,nama_pendaftar=nama, email_pendaftar=email, phone_number=phonenumber, what_can_you_help_with=help, reason_to_participate=reason)
+        add_participants = Participants(user=None,nama_pendaftar=nama, email_pendaftar=email, phone_number=phonenumber, what_can_you_help_with=help, reason_to_participate=reason)
         add_participants.save()
 
         return HttpResponse(b"CREATED", status=201)
