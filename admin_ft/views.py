@@ -22,6 +22,7 @@ import io
 import urllib, base64
 from admin_ft.forms import AdminForm
 import seaborn as sns
+import json
 
 def get_data():
     df_participant = pd.DataFrame(Participants.objects.values())
@@ -109,6 +110,52 @@ def admin_ft(request):
                             'dist_kampanye':uri4,
                             'form':form,
                             'table_top_5':df_don[:5].to_dict('records')})
+@csrf_exempt
+def flutter_top_donations(request):
+    df_don, _ = get_data()
+    
+    print(df_don[['username','nominal']][:5].to_dict('records'))
+
+    return HttpResponse(json.dumps({'don_top_5':df_don[['username','nominal']][:5].to_dict('records')}), 
+                        content_type='application/json')
+
+@csrf_exempt
+def flutter_top_campaigns(request):
+    _, df_par = get_data()
+    
+    print(df_par[['username','kampanye']][:5].to_dict('records'))
+
+    return HttpResponse(json.dumps({'par_top_5':df_par[['username','kampanye']][:5].to_dict('records')}), 
+                        content_type='application/json')
+
+@csrf_exempt
+def flutter_dist_donations(request):
+    df_don, _ = get_data()
+    
+    print(df_don[['nominal']].to_dict('records'))
+
+    return HttpResponse(json.dumps({'don_dist':df_don[['nominal']].to_dict('records')}), 
+                        content_type='application/json')
+
+@csrf_exempt
+def flutter_dist_campaigns(request):
+    _, df_par = get_data()
+    
+    print(df_par[['kampanye']].to_dict('records'))
+
+    return HttpResponse(json.dumps({'par_dist':df_par[['kampanye']].to_dict('records')}), 
+                        content_type='application/json')
+
+@csrf_exempt
+def flutter_top_user(request):
+    
+    print('masuk ke views django')
+    df_don, _ = get_data()
+    
+    print(df_don[:5].astype(str).to_dict('records'))
+
+    return HttpResponse(json.dumps({'table_top_5':df_don[:5].to_dict('records')}), 
+                        content_type='application/json')
 
 @csrf_exempt
 def register(request):
