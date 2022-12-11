@@ -19,11 +19,8 @@ def show_donate(request):
 @csrf_exempt
 def flutter_donation(request):
     if request.method == 'POST':
-        print("apapun")
         print(request.POST.get('nominal'), request.POST.get('pesan'))
 
-        # try:
-            # user = User.objects.get(username = request.POST.get('nama'))
         nominal = request.POST.get("nominal")
         namaPohon = request.POST.get("namaPohon")
         jumlahPohon = request.POST.get("jumlahPohon")
@@ -32,8 +29,6 @@ def flutter_donation(request):
         donation.save()
 
         return JsonResponse({"instance":'proyek dibuat'}, status=200)
-        # except:
-        #     return JsonResponse({"instance":'proyek gagal'}, status=401)
     else:
         return JsonResponse({"gagal"}, status=404)
 
