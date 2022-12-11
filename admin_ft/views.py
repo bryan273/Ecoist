@@ -22,6 +22,7 @@ import io
 import urllib, base64
 from admin_ft.forms import AdminForm
 import seaborn as sns
+import json
 
 def get_data():
     df_participant = pd.DataFrame(Participants.objects.values())
@@ -109,6 +110,52 @@ def admin_ft(request):
                             'dist_kampanye':uri4,
                             'form':form,
                             'table_top_5':df_don[:5].to_dict('records')})
+@csrf_exempt
+def flutter_top_donations(request):
+    df_don, _ = get_data()
+    
+    # print(df_don[['username','nominal']][:5].to_dict('records'))
+    print(json.dumps({'don_top_5':df_don[['username','nominal']][:5].to_dict('records')}))
+    return HttpResponse(json.dumps({'don_top_5':df_don[['username','nominal']][:5].to_dict('records')}), 
+                        content_type='application/json')
+
+@csrf_exempt
+def flutter_top_campaigns(request):
+    _, df_par = get_data()
+    
+    # print(df_par[['username','kampanye']][:5].to_dict('records'))
+
+    return HttpResponse(json.dumps({'par_top_5':df_par[['username','kampanye']][:5].to_dict('records')}), 
+                        content_type='application/json')
+
+@csrf_exempt
+def flutter_dist_donations(request):
+    df_don, _ = get_data()
+    
+    # print(df_don[['nominal']].to_dict('records'))
+
+    return HttpResponse(json.dumps({'don_dist':df_don[['nominal']].to_dict('records')}), 
+                        content_type='application/json')
+
+@csrf_exempt
+def flutter_dist_campaigns(request):
+    _, df_par = get_data()
+    
+    # print(df_par[['kampanye']].to_dict('records'))
+
+    return HttpResponse(json.dumps({'par_dist':df_par[['kampanye']].to_dict('records')}), 
+                        content_type='application/json')
+
+@csrf_exempt
+def flutter_top_user(request):
+    
+    print('masuk ke views django')
+    df_don, _ = get_data()
+    
+    # print(df_don[:5].astype(str).to_dict('records'))
+
+    return HttpResponse(json.dumps({'table_top_5':df_don[:5].to_dict('records')}), 
+                        content_type='application/json')
 
 def register(request):
     form = UserCreationForm()
@@ -126,6 +173,46 @@ def register(request):
     
     context = {'form':form}
     return render(request, 'register.html', context)
+
+@csrf_exempt
+def flutter_register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password_1 = request.POST.get('password1')
+        password_2 = request.POST.get('password2')
+        is_user_already_exist = User.objects.filter(username=username).exists()
+        if (username == '') or (password_1 == '') or (password_2 ==''):
+            return JsonResponse({
+              "status": False,
+              "message": "Teks tidak boleh kosong"
+            }, status=401)
+        elif (len(password_1)<=5):
+            return JsonResponse({
+              "status": False,
+              "message": "Panjang password harus lebih dari 5"
+            }, status=401)
+        elif (password_1!=password_2):
+            return JsonResponse({
+              "status": False,
+              "message": "Password harus sama"
+            }, status=401)
+        elif (not is_user_already_exist) and (password_1==password_2):
+            user = User.objects.create_user(username=username,password=password_1)
+            user.save()
+            admin_ft_entry.objects.create(user=user, username=username)
+            return JsonResponse({
+                "status": True,
+                "username": user.username,
+            }, status=200)
+        else:
+            return JsonResponse({
+              "status": False,
+              "message": "Username sudah terdaftar"
+            }, status=401)
+    else:
+        return JsonResponse({
+            "status": "Password error"
+        }, status=401)
 
 def login_user(request):
     if request.method == 'POST':
@@ -145,17 +232,69 @@ def login_user(request):
     context = {}
     return render(request, 'login.html', context)
 
+@csrf_exempt
+def flutter_login(request):
+    if request.method == 'POST':
+        print('masuk ke post login')
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        print(username, password)
+        user = authenticate(request, username=username, password=password)
+        isAdmin = False
+        if user is not None:
+            login(request, user) # melakukan login terlebih dahulu
+            if username=='admin_ecoist':
+                isAdmin = True
+            return JsonResponse({
+                "status": True,
+                "message": "Successfully Logged In!",
+                'isAdmin': isAdmin,
+                # Insert any extra data if you want to pass data to Flutter
+                }, status=200)
+        else:
+            print('masuk ke else login')
+            return JsonResponse({
+                "status": False,
+                "message": "Failed to Login, check your email/password."
+            }, status=401)
+
 def logout_user(request):
     logout(request)
     response = HttpResponseRedirect(reverse('admin_ft:login'))
     response.delete_cookie('last_login')
     return response
 
+@csrf_exempt
+def flutter_logout(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('admin_ft:login'))
+    response.delete_cookie('last_login')
+    return JsonResponse({
+            "status": True,
+            "message": "Successfully Register!"
+            # Insert any extra data if you want to pass data to Flutter
+            }, status=200)
+
 @login_required(login_url='/admin_ft/login/')
 def add_ajax(request):
     df_don,df_par = get_data()
     print(df_don.to_json())
     return HttpResponse(df_don.to_json(), content_type="application/json")
+
+@csrf_exempt
+def flutter_text(request):
+    df_don,_ = get_data()
+    username = df_don['username'].count()
+    nominal = df_don['nominal'].sum()
+    jumlahPohon = df_don['jumlahPohon'].sum()
+    kampanye = df_don['kampanye'].sum()
+    donasi = df_don['donasi'].sum()
+
+    context = {'username':str(username),'nominal':str(nominal),'jumlahPohon':str(jumlahPohon),
+                'kampanye':str(kampanye),'donasi':str(donasi)}
+    print(context)
+    print(json.dumps(context))
+    return HttpResponse(json.dumps(context) , content_type="application/json")
 
 @login_required(login_url='/admin_ft/login/')
 def add_ajax_5(request):
@@ -170,12 +309,30 @@ def create_notes(request):
         # if form.is_valid():
         print(dir(form))
         print(request.POST.get('nama'))
-        user = User.objects.get(username = request.POST.get('nama'))
-        admin_obj = admin_ft_entry.objects.get(user=user)
-        admin_obj.noted = request.POST.get('note')
-        admin_obj.save()
-        # print(pd.DataFrame(admin_ft_entry.objects.values()))
-        messages.success(request, 'Notes berhasil dibuat')
-        return JsonResponse({"instance":'proyek dibuat'}, status=200)
+        try:
+            user = User.objects.get(username = request.POST.get('nama'))
+            admin_obj = admin_ft_entry.objects.get(user=user)
+            admin_obj.noted = request.POST.get('note')
+            admin_obj.save()
+            # print(pd.DataFrame(admin_ft_entry.objects.values()))
+            messages.success(request, 'Notes berhasil dibuat')
+            return JsonResponse({"instance":'proyek dibuat'}, status=200)
+        except:
+            return None
         # else:
         #     print('error')
+
+@csrf_exempt
+def flutter_notes(request):
+    if request.method == 'POST':
+        print(request.POST.get('nama'), request.POST.get('note'))
+
+        try:
+            user = User.objects.get(username = request.POST.get('nama'))
+            admin_obj = admin_ft_entry.objects.get(user=user)
+            admin_obj.noted = request.POST.get('note')
+            admin_obj.save()
+
+            return JsonResponse({"instance":'proyek dibuat'}, status=200)
+        except:
+            return JsonResponse({"instance":'proyek gagal'}, status=401)

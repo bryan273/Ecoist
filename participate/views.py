@@ -63,7 +63,11 @@ def flutter_campaign(request):
         phonenumber = request.POST.get("phone_number")
         help = request.POST.get("what_can_you_help_with")
         reason = request.POST.get("reason_to_participate")
+<<<<<<< HEAD
         add_participants = Participants(user=request.user,nama_pendaftar=nama, email_pendaftar=email, phone_number=phonenumber, what_can_you_help_with=help, reason_to_participate=reason)
+=======
+        add_participants = Participants(user=None,nama_pendaftar=nama, email_pendaftar=email, phone_number=phonenumber, what_can_you_help_with=help, reason_to_participate=reason)
+>>>>>>> 9b18c2554f72b18cde654aef34c9142dd80a892a
         add_participants.save()
 
         return HttpResponse(b"CREATED", status=201)

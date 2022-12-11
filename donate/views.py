@@ -5,14 +5,42 @@ from donate.models import Donasi
 from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.core import serializers
 from donate.forms import DonateForm
+from django. views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.models import User
 
 # Create your views here.
+<<<<<<< HEAD
 @login_required(login_url='/login/')
+=======
+# @login_required(login_url='login/')
+>>>>>>> 9b18c2554f72b18cde654aef34c9142dd80a892a
 def show_donate(request):
     context = {'form':DonateForm()}
     return render(request, "donate.html", context)
 
+<<<<<<< HEAD
 @login_required(login_url='/login/')
+=======
+# @ensure_csrf_cookie
+@csrf_exempt
+def flutter_donation(request):
+    if request.method == 'POST':
+        print(request.POST.get('nominal'), request.POST.get('pesan'))
+
+        nominal = request.POST.get("nominal")
+        namaPohon = request.POST.get("namaPohon")
+        jumlahPohon = request.POST.get("jumlahPohon")
+        pesan = request.POST.get("pesan")
+        donation = Donasi(user=request.user,nominal=nominal,namaPohon=namaPohon,jumlahPohon=jumlahPohon,pesan=pesan)
+        donation.save()
+
+        return JsonResponse({"instance":'proyek dibuat'}, status=200)
+    else:
+        return JsonResponse({"gagal"}, status=404)
+
+# @login_required(login_url='login/')
+>>>>>>> 9b18c2554f72b18cde654aef34c9142dd80a892a
 def donate_ajax(request):
     if request.method == 'POST':
         nominal = request.POST.get('nominal')
@@ -31,7 +59,11 @@ def donate_ajax(request):
         }
         return JsonResponse({"instance":hasil}, status=200)
 
+<<<<<<< HEAD
 @login_required(login_url='/login/')
+=======
+# @login_required(login_url='login/')
+>>>>>>> 9b18c2554f72b18cde654aef34c9142dd80a892a
 def show_json(request):
     data = Donasi.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
