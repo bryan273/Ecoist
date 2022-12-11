@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'participate',
     'campaign',
     'homepage',
+    "authentication",
+    "corsheaders",
 ]
 
 TAILWIND_APP_NAME = 'theme'
@@ -59,6 +61,7 @@ INTERNAL_IPS = [
 NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -69,6 +72,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
+CORS_ALLOW_ALL_ORIGINS=True
+
+CORS_ALLOW_CREDENTIALS=True
+
+CSRF_COOKIE_SECURE = True
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SAMESITE = 'None'
+
+SESSION_COOKIE_SAMESITE = 'None'
 
 ROOT_URLCONF = 'project_django.urls'
 

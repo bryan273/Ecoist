@@ -7,12 +7,12 @@ from django.core import serializers
 from donate.forms import DonateForm
 
 # Create your views here.
-@login_required(login_url='login/')
+@login_required(login_url='/login/')
 def show_donate(request):
     context = {'form':DonateForm()}
     return render(request, "donate.html", context)
 
-@login_required(login_url='login/')
+@login_required(login_url='/login/')
 def donate_ajax(request):
     if request.method == 'POST':
         nominal = request.POST.get('nominal')
@@ -31,7 +31,7 @@ def donate_ajax(request):
         }
         return JsonResponse({"instance":hasil}, status=200)
 
-@login_required(login_url='login/')
+@login_required(login_url='/login/')
 def show_json(request):
     data = Donasi.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
