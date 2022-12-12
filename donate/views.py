@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 
 # Create your views here.
-# @login_required(login_url='login/')
+@login_required(login_url='/login/')
 def show_donate(request):
     context = {'form':DonateForm()}
     return render(request, "donate.html", context)

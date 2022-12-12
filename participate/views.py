@@ -17,7 +17,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.http import HttpResponse, HttpResponseNotFound
-from django. views.decorators.csrf import ensure_csrf_cookie
+from django. views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @login_required(login_url='/login/')
@@ -55,7 +55,7 @@ def show_json(request):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 # buat flutter
-@ensure_csrf_cookie
+@csrf_exempt
 def flutter_campaign(request):
     if request.method == "POST":
         nama = request.POST.get("nama_pendaftar")
@@ -63,7 +63,7 @@ def flutter_campaign(request):
         phonenumber = request.POST.get("phone_number")
         help = request.POST.get("what_can_you_help_with")
         reason = request.POST.get("reason_to_participate")
-        add_participants = Participants(user=None,nama_pendaftar=nama, email_pendaftar=email, phone_number=phonenumber, what_can_you_help_with=help, reason_to_participate=reason)
+        add_participants = Participants(user=request.user,nama_pendaftar=nama, email_pendaftar=email, phone_number=phonenumber, what_can_you_help_with=help, reason_to_participate=reason)
         add_participants.save()
 
         return HttpResponse(b"CREATED", status=201)
