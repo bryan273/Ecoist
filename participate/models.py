@@ -16,3 +16,11 @@ class Participants(models.Model):
     phone_number = models.CharField(max_length=15, default='0')
     what_can_you_help_with = models.CharField(max_length=50, verbose_name='What can you help with?', default="")
     reason_to_participate = models.CharField(max_length=500, default='')
+
+class ParticipantsF(models.Model):
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, to_field='title', default=None, null=True)
+    nama_pendaftar = models.CharField(max_length=50, default='')
+    email_pendaftar = models.CharField(max_length=50, default='')
+    phone_number = models.CharField(max_length=15, default='0')
+    what_can_you_help_with = models.CharField(max_length=50, verbose_name='What can you help with?', default="")
+    reason_to_participate = models.CharField(max_length=500, default='')
