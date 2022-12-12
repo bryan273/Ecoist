@@ -157,6 +157,7 @@ def flutter_top_user(request):
     return HttpResponse(json.dumps({'table_top_5':df_don[:5].to_dict('records')}), 
                         content_type='application/json')
 
+@csrf_exempt
 def register(request):
     form = UserCreationForm()
 
@@ -214,6 +215,7 @@ def flutter_register(request):
             "status": "Password error"
         }, status=401)
 
+@csrf_exempt
 def login_user(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -245,10 +247,6 @@ def flutter_login(request):
             login(request, user) # melakukan login terlebih dahulu
             if username=='admin_ecoist':
                 isAdmin = True
-                response = HttpResponseRedirect(reverse("admin_ft:admin_ft")) # membuat response
-            else:
-                response = HttpResponseRedirect(reverse("homepage:show_homepage")) # membuat response
-            response.set_cookie('last_login', str(datetime.datetime.now())) 
             return JsonResponse({
                 "status": True,
                 "message": "Successfully Logged In!",
@@ -262,6 +260,7 @@ def flutter_login(request):
                 "message": "Failed to Login, check your email/password."
             }, status=401)
 
+@csrf_exempt
 def logout_user(request):
     logout(request)
     response = HttpResponseRedirect(reverse('admin_ft:login'))
