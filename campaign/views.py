@@ -19,7 +19,7 @@ def show_campaign(request):
     }
     return render(request, "campaign.html", context)
 
-@login_required(login_url='/ecoist/login/')
+# @login_required(login_url='/ecoist/login/')
 @csrf_exempt
 def create_campaign_with_ajax(request):
     if request.method == "POST":
