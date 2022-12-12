@@ -53,5 +53,5 @@ def donate_ajax(request):
 
 # @login_required(login_url='login/')
 def show_json(request):
-    data = Donasi.objects.all()
+    data = Donasi.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
