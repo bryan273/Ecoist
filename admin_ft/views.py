@@ -245,6 +245,10 @@ def flutter_login(request):
             login(request, user) # melakukan login terlebih dahulu
             if username=='admin_ecoist':
                 isAdmin = True
+                response = HttpResponseRedirect(reverse("admin_ft:admin_ft")) # membuat response
+            else:
+                response = HttpResponseRedirect(reverse("homepage:show_homepage")) # membuat response
+            response.set_cookie('last_login', str(datetime.datetime.now())) 
             return JsonResponse({
                 "status": True,
                 "message": "Successfully Logged In!",
