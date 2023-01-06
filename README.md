@@ -41,31 +41,31 @@ Situs Ecoist adalah situs yang bertujuan untuk menyebarkan kesadaran kepada masy
 
 4. Create Campaign - Hatta
 
-    <img src="https://user-images.githubusercontent.com/88226713/195621002-07959dd1-f09f-4e04-a396-45c221617061.png" width="400" height="200"/>
-
+    <img src="https://user-images.githubusercontent.com/88226713/210934143-5dd4f3f7-b90c-4cf1-9bd9-0244bf638157.png" width="400" height="200"/>
+    
     Sebuah modal yang berisi form untuk mendaftarkan campaign. Di sini akan dilakukan implementasi AJAX GET
 
 5. Campaign list - Hatta
 
-    <img src="https://user-images.githubusercontent.com/88226713/195621319-13369e97-fd98-49d0-809d-b29a7898aab2.png" width="400" height="200"/>
+    <img src="https://user-images.githubusercontent.com/88226713/210934102-7dd01b23-093f-4e83-a6dd-3eb17ece5ca5.png" width="400" height="190"/>
     
     Berisi campaign-campaign yang dibuat oleh user. Di sini akan dilakukan implementasi AJAX POST dan AJAX GET
 
 6. Join Campaign - Adish
-    
-    <img width="400" height="280" src="https://user-images.githubusercontent.com/88226713/195621494-74cff58c-d1c2-4569-8d95-6ae0e91a365d.png">
+
+    <img width="400" height="383" src="https://user-images.githubusercontent.com/88226713/210934840-7f45ac62-392a-45ef-9881-503b49897a2f.jpg">
 
     Fitur ini digunakan untuk user yang ingin mengikuti kampanye. User dapat mengisi form yang terdaftar untuk join campaign menanam/membersihkan hutan. Ketika user submit, akan dilakukan AJAX post berupa kampanye berhasil diikuti dan detail kampanye.
 
 7. Donate - Maza 
 
-    <img width="400" height="410" src="https://user-images.githubusercontent.com/88226713/195622069-bec43f0c-231f-44b8-ad13-e4aea9be471c.jpg">
+    <img width="400" height="277" src="https://user-images.githubusercontent.com/88226713/210934942-808e8e94-55fe-4698-8a06-8872f25f58eb.png">
 
     Ini adalah fitur donasi untuk memfasilitasi user yang sudah login untuk berdonasi. Terdapat form untuk memasukkan input nominal donasi, jumlah pohon yang ingin didonasikan, dan catatan/pesan untuk kami serta tombol submit untuk menginput donasi. Ketika user ingin men-submit donasi, maka tombol submit tersebut akan menggunakan AJAX POST untuk menginput data yang dimasukkan user ke dalam database. Jika user belum login, maka akan di redirect ke halaman login terlebih dahulu.
 
 8. Admin Features - Bryan
 
-    <img width="400" height="300" src="https://user-images.githubusercontent.com/88226713/195622602-8f00c778-6eed-4d1b-a737-5100a663aaa6.png">
+    <img width="400" height="300" src="https://user-images.githubusercontent.com/88226713/210935787-b3da5815-5f10-4776-b988-64ebfce8a4c6.jpg">
 
     Merupakan fitur / web yang khusus bisa diakses oleh admin. Fitur yang khusus ini dapat digunakan untuk melihat data tentang user. Misalnya, melihat dashboard pageview dan click, total donasi yang ada, dan total campaign yang telah diikuti.
 
