@@ -23,19 +23,19 @@ Situs Ecoist adalah situs yang bertujuan untuk menyebarkan kesadaran kepada masy
 ## Modul / Pages
 1. Register - Bryan
 
-    <img src="https://user-images.githubusercontent.com/88226713/195610008-4c8a547f-1617-4cd4-9130-0aa929dbf7d4.png" width="400" height="300"/>
+    <img src="https://user-images.githubusercontent.com/88226713/210933679-355abfaf-1c2d-4179-bb43-538ebbaea0e0.png" width="400" height="190"/>
     
     Register berisi form untuk membuat akun agar user dapat melakukan kegiatan dalam website. 
 
 2. Log In & Log Out - Bryan 
-    
-    <img src="https://user-images.githubusercontent.com/88226713/195610461-97e441a9-3e48-4d44-b027-a0c008fdcc3c.png" width="400" height="300"/>
+
+    <img src="https://user-images.githubusercontent.com/88226713/210933105-a2539295-263a-4fad-8557-7880a482872c.png" width="400" height="190"/>
     
     Login dan logout berisi form untuk mengautentikasi dan membedakan antara user dan admin. Menggunakan modal untuk regist , kemudian menggunakan AJAX  POST & GET. 
 
 3. Home Page - Roy
-    
-    <img src="https://user-images.githubusercontent.com/88226713/195620247-bfdba618-59b4-4bfb-a84c-166358712622.png" width="400" height="600"/>
+   
+    <img src="https://user-images.githubusercontent.com/88226713/210932777-759e5f2c-1595-4a80-aa04-78c2f79fdbb0.jpg" width="400" height="661"/>
 
     Merupakan page yang akan ditampilkan saat awal orang memasuki website. Melalui page ini orang dapat di-redirect menuju page lainnya sesuai kebutuhan. Dalam page ini berisi deskripsi website, perkenalan tim pembuat web, serta form FAQ (menggunakan AJAX POST) jika pengunjung ingin memberikan masukan. Dalam laman ini, akan ditampilkan jumlah kampanye yang telah dibuat, bagian ini akan menggunakan AJAX GET.
 
