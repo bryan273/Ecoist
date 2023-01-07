@@ -3,6 +3,8 @@
 ## Link Heroku
 https://ecoist.herokuapp.com/
 
+Our app : https://github.com/bryan273/Ecoist-Web
+
 ## Anggota
 
 * Azmi Rahmadisha
