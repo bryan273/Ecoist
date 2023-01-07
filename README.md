@@ -1,4 +1,4 @@
-# Ecoist
+# Ecoist-Web
 
 ## Link Heroku
 https://ecoist.herokuapp.com/
