@@ -38,3 +38,7 @@
 7. Donate - Maza 
 
     <img width="400" height="410" src="https://user-images.githubusercontent.com/88226713/195622069-bec43f0c-231f-44b8-ad13-e4aea9be471c.jpg">
+
+8. Admin Features - Bryan
+
+    <img width="400" height="300" src="https://user-images.githubusercontent.com/88226713/195622602-8f00c778-6eed-4d1b-a737-5100a663aaa6.png">
